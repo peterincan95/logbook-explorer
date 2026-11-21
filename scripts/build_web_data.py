@@ -7,8 +7,9 @@ or the locations (run build_locations.py first if places changed):
     python scripts/build_web_data.py
 
 Writes:
-- points.csv: one row per logbook row with a position. point_id is the row
-  number in cliwoc_points_en.csv (1-based), the same as OBJECTID in
+- points.csv: one row per logbook row with a position, from MIN_YEAR on, with
+  the fields the filters use plus ship name and date for the hover tooltip.
+  point_id is the row number in cliwoc_points_en.csv (1-based), the same as OBJECTID in
   gis/cliwoc_explorer.gdb, so a point can be looked up in the full record.
 - search.tsv: row number in points.csv (1-based, which is the object ID the
   map's CSVLayer gives each point) and the lowercased English text of that
@@ -28,6 +29,9 @@ LOCATIONS_CSV = ROOT / "data" / "locations.csv"
 CROSSWALK_CSV = ROOT / "data" / "place_to_location.csv"
 OUT = ROOT / "app" / "public" / "data"
 
+# Logbook entries before this year are left out of the web app.
+MIN_YEAR = 1740
+
 # English text searched by the keyword panel.
 SEARCH_FIELDS = ["OtherShipInformation_en", "LifeOnBoard_en", "EncRem_en", "CargoMemo_en",
                  "ShipAndRigMemo_en", "BiologyMemo_en", "WarsAndFightsMemo_en", "OtherRem_en",
@@ -41,7 +45,7 @@ def clean_place(s):
 def main():
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     OUT.mkdir(parents=True, exist_ok=True)
-    cols = ["latitude", "longitude", "Nationality", "Company", "YR", "VoyageFrom", "VoyageTo"]
+    cols = ["latitude", "longitude", "Nationality", "Company", "YR", "MO", "DY", "ShipName", "VoyageFrom", "VoyageTo"]
     log = pd.read_csv(LOG_CSV, encoding="utf-8-sig", dtype=str, keep_default_na=False,
                       usecols=cols + SEARCH_FIELDS)
     log["point_id"] = range(1, len(log) + 1)
@@ -58,8 +62,15 @@ def main():
     pts["year"] = pd.to_numeric(pts.YR, errors="coerce").astype("Int64")
     pts["nat"] = pts.Nationality.str.strip()
     pts["company"] = pts.Company.str.strip()
+    pts["ship"] = pts.ShipName.str.strip()
+    # ISO date (YYYY-MM-DD) for the hover tooltip; blank if the day is missing or invalid
+    ymd = pd.to_datetime(dict(year=pd.to_numeric(pts.YR, errors="coerce"),
+                              month=pd.to_numeric(pts.MO, errors="coerce"),
+                              day=pd.to_numeric(pts.DY, errors="coerce")), errors="coerce")
+    pts["date"] = ymd.dt.strftime("%Y-%m-%d").fillna("")
+    pts = pts[pts.year >= MIN_YEAR]
     pts = pts.reset_index(drop=True)
-    pts[["point_id", "lon", "lat", "nat", "company", "origin", "dest", "year"]].to_csv(
+    pts[["point_id", "lon", "lat", "nat", "company", "origin", "dest", "year", "ship", "date"]].to_csv(
         OUT / "points.csv", index=False, encoding="utf-8")
 
     text = pts[SEARCH_FIELDS].apply(lambda r: " | ".join(x.strip() for x in r if x.strip()), axis=1)

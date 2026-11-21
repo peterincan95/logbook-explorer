@@ -9,7 +9,8 @@
   --text: #ece4d0;
   --text-muted: #a8b2a6;
   --chip-text: #1b1b1b;
-  --selected: #2d6fd6;
+  --selected: #2d6fd6;          /* combobox tick only */
+  --chip-selected-shade: 40%;   /* how much black is mixed into a selected chip */
   --field-bg: #e6e3dc;
   --field-text: #1b1b1b;
   --field-muted: #5f5f5f;
@@ -94,20 +95,6 @@ body.loading .panel { visibility: hidden; }
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
 }
 
-.panel-toggle {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid var(--gold-soft);
-  background: rgb(0 0 0 / 0.25);
-  color: var(--gold);
-  cursor: pointer;
-}
-.panel-toggle calcite-icon { transition: transform 0.2s; }
-.panel.collapsed .panel-toggle calcite-icon { transform: rotate(180deg); }
-.panel.collapsed .panel-body { display: none; }
 
 .panel-meta {
   display: flex;
@@ -137,16 +124,44 @@ body.loading .panel { visibility: hidden; }
 /* ------------------------------------------------------------ blocks */
 
 .filter-block {
+  /* Calcite only takes a flat header colour, so the header is transparent
+     and the gradient is painted on the block behind the header strip. */
+  --block-header-height: 43.25px;
+  --block-header-fill: linear-gradient(180deg, #2d4341 0%, #1d2d2b 100%);
   --calcite-block-heading-text-color: var(--text);
   --calcite-block-heading-text-color-press: var(--gold);
-  --calcite-block-header-background-color: var(--panel-row);
-  --calcite-block-header-background-color-hover: var(--panel-row-hover);
-  --calcite-block-background-color: #121c1b;
+  --calcite-block-header-background-color: transparent;
+  --calcite-block-header-background-color-hover: rgb(255 255 255 / 0.06);
+  --calcite-block-header-background-color-press: rgb(0 0 0 / 0.15);
   --calcite-block-border-color: var(--panel-border);
   --calcite-block-icon-color: var(--gold);
   --calcite-block-icon-color-hover: var(--gold);
+  background:
+    var(--block-header-fill) top / 100% var(--block-header-height) no-repeat,
+    #121c1b;
   font-size: 1rem;
+  /* Calcite adds a vertical margin to open blocks, which drops the heading */
+  margin-block: 0;
 }
+
+/* Section with a filter applied */
+.filter-block.has-filter {
+  --block-header-fill: linear-gradient(180deg, #5c3526 0%, #3c2017 100%);
+  --calcite-block-heading-text-color: #f3dfa8;
+  box-shadow: inset 3px 0 0 var(--gold);
+}
+
+.block-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 19.25px;
+  color: var(--text);
+}
+.block-filter-icon { display: none; color: var(--gold); }
+.has-filter .block-title { color: #f3dfa8; }
+.has-filter .block-filter-icon { display: inline-flex; }
 
 .block-content {
   display: flex;
@@ -172,7 +187,10 @@ body.loading .panel { visibility: hidden; }
 
 .chip,
 .company-chip {
-  --chip-color: #9fb1c8;
+  /* --chip-base is the chip's colour; --chip-color is what's drawn
+     (the base, or a darker shade of it when selected). */
+  --chip-base: #9fb1c8;
+  --chip-color: var(--chip-base);
   /* Bevelled pill: light top, base colour, darker bottom edge */
   --chip-fill: linear-gradient(180deg,
     color-mix(in srgb, var(--chip-color) 55%, #fff) 0%,
@@ -206,13 +224,11 @@ body.loading .panel { visibility: hidden; }
 .chip:hover { filter: brightness(1.08); }
 .chip:active { transform: translateY(1px); }
 .chip:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-.chip .chip-close { display: none; }
-.chip[aria-pressed="true"] .chip-close { display: inline-flex; }
 
-/* Selected: deep blue with a gold rim and glow */
+/* Selected: a darker shade of the chip's own colour, with a gold rim and glow */
 .chip[aria-pressed="true"],
 .company-chip:has(.chip[aria-pressed="true"]) {
-  --chip-color: var(--selected);
+  --chip-color: color-mix(in srgb, var(--chip-base) calc(100% - var(--chip-selected-shade)), #000);
   --chip-rim: var(--gold);
 }
 .chip[aria-pressed="true"] {
@@ -228,7 +244,7 @@ body.loading .panel { visibility: hidden; }
 /* Company chips: info button and toggle share one pill, so the pill
    carries the fill and both buttons are transparent. */
 .company-chip {
-  --chip-color: #8ec3f5;
+  --chip-base: #5d8a83;
   display: inline-flex;
   align-items: stretch;
   border: 1px solid var(--chip-rim);
@@ -259,7 +275,7 @@ body.loading .panel { visibility: hidden; }
   border: none;
   border-radius: 999px 0 0 999px;
   background: transparent;
-  color: #1d3d63;
+  color: #172321;
   cursor: pointer;
 }
 .chip-info:hover { color: #000; }
@@ -273,11 +289,11 @@ body.loading .panel { visibility: hidden; }
 }
 
 /* Nationality chips take their colour from nationalities.js */
-.chip-nat { --chip-color: var(--nat-color); }
+.chip-nat { --chip-base: var(--nat-color); }
 
 /* Keyword chips: smaller, pewter */
 .chip-keyword {
-  --chip-color: #a9aba6;
+  --chip-base: #a9aba6;
   min-height: 24px;
   padding: 2px 9px;
   font-size: 0.82rem;
@@ -325,6 +341,44 @@ body.loading .panel { visibility: hidden; }
   --calcite-slider-handle-fill-color: var(--panel-bg);
   --calcite-slider-accent-color: var(--gold);
   --calcite-slider-text-color: var(--text);
+}
+
+/* ------------------------------------------------------------ point tooltip */
+
+/* Invisible 1px element that follows the cursor; the tooltip anchors to it */
+#tooltip-anchor {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+calcite-tooltip {
+  --calcite-tooltip-background-color: var(--panel-bg);
+  --calcite-tooltip-text-color: var(--text);
+  --calcite-tooltip-border-color: var(--gold-soft);
+  --calcite-tooltip-corner-radius: 4px;
+  --calcite-tooltip-max-size-x: none;   /* long ship names widen it rather than wrap */
+}
+
+.tooltip-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--font-body);
+}
+.tooltip-ship {
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  color: #f3dfa8;
+}
+.tooltip-date {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ------------------------------------------------------------ small screens */

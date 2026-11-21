@@ -2,7 +2,7 @@
 import { strings } from "./config/strings.js";
 import { nationalities } from "./config/nationalities.js";
 import { companies } from "./config/companies.js";
-import { isActive } from "./filters.js";
+import { isActive, keywordActive } from "./filters.js";
 
 const el = (tag, attrs = {}, ...children) => {
   const node = document.createElement(tag);
@@ -19,16 +19,20 @@ const el = (tag, attrs = {}, ...children) => {
   return node;
 };
 
+// The title goes in the content-start slot instead of Calcite's heading, so
+// the filter icon can sit right after the name. `label` names the toggle.
 function block(heading, ...content) {
-  return el("calcite-block", { heading, expandable: true, class: "filter-block" },
+  return el("calcite-block", { label: heading, expandable: true, class: "filter-block" },
+    el("span", { slot: "content-start", class: "block-title" }, heading,
+      el("calcite-icon", { icon: "filter", scale: "s", class: "block-filter-icon", "aria-hidden": "true" })),
     el("div", { class: "block-content" }, ...content));
 }
 
-// A toggle chip (aria-pressed). Selected chips show a close icon, as in the mockups.
+// A toggle chip (aria-pressed). Selection only changes colour, so chips keep
+// their size and never reflow.
 function chip(label, { pressed, onToggle, className = "", style } = {}) {
-  const icon = el("calcite-icon", { icon: "x-circle-f", scale: "s", class: "chip-close", "aria-hidden": "true" });
   const btn = el("button", { type: "button", class: `chip ${className}`, style, "aria-pressed": String(!!pressed) },
-    el("span", { class: "chip-label" }, label), icon);
+    el("span", { class: "chip-label" }, label));
   btn.addEventListener("click", () => {
     const on = btn.getAttribute("aria-pressed") !== "true";
     btn.setAttribute("aria-pressed", String(on));
@@ -68,21 +72,25 @@ function locationCombobox(id, items, countKey, onSelect) {
 export function buildPanel(root, { state, onChange, locations, keywords, years, onKeywordOpen }) {
   const count = el("span", { class: "panel-count", "aria-live": "polite" });
   const clear = el("button", { type: "button", class: "panel-clear", hidden: true }, strings.clearAll);
-  const toggle = el("button", { type: "button", class: "panel-toggle", "aria-expanded": "true", "aria-label": strings.panelToggle },
-    el("calcite-icon", { icon: "chevron-up", scale: "s" }));
   const header = el("header", { class: "panel-header" },
-    el("div", { class: "panel-title-row" }, el("h1", { class: "panel-title" }, strings.panelTitle), toggle),
+    el("div", { class: "panel-title-row" }, el("h1", { class: "panel-title" }, strings.panelTitle)),
     el("div", { class: "panel-meta" }, count, clear));
 
+  // Sections with a filter applied get a filter icon and a highlighted header.
+  let sectionActive = [];
   const changed = () => {
     clear.hidden = !isActive(state);
+    for (const [blockEl, active] of sectionActive) {
+      const on = active();
+      blockEl.classList.toggle("has-filter", on);
+    }
     onChange();
   };
 
   // Nationality
   const natChips = nationalities.map((n) =>
     chip(n.label, {
-      className: "chip-nat", style: { "--nat-color": n.chip },
+      className: "chip-nat", style: { "--nat-color": n.color },
       onToggle: (on) => { on ? state.nationalities.add(n.value) : state.nationalities.delete(n.value); changed(); },
     }));
   const natBlock = block(strings.sections.nationality, el("div", { class: "chip-row" }, natChips));
@@ -145,6 +153,13 @@ export function buildPanel(root, { state, onChange, locations, keywords, years, 
   const dateBlock = block(strings.sections.dates, slider);
 
   const blocks = [natBlock, voyageBlock, companyBlock, keywordBlock, dateBlock];
+  sectionActive = [
+    [natBlock, () => state.nationalities.size > 0],
+    [voyageBlock, () => state.origin != null || state.destination != null],
+    [companyBlock, () => state.companies.size > 0],
+    [keywordBlock, () => keywordActive(state)],
+    [dateBlock, () => state.years != null],
+  ];
   const body = el("div", { class: "panel-body" }, blocks);
   root.append(header, body);
 
@@ -154,12 +169,6 @@ export function buildPanel(root, { state, onChange, locations, keywords, years, 
       for (const other of blocks) if (other !== b) other.expanded = false;
     });
   }
-
-  toggle.addEventListener("click", () => {
-    const open = toggle.getAttribute("aria-expanded") !== "true";
-    toggle.setAttribute("aria-expanded", String(open));
-    root.classList.toggle("collapsed", !open);
-  });
 
   clear.addEventListener("click", () => {
     state.nationalities.clear();

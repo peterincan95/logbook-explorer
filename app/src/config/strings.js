@@ -6,7 +6,6 @@ const LOREM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
 export const strings = {
   pageTitle: "Logbook Explorer",
   panelTitle: "Explore",
-  panelToggle: "Explore",                         // label for the collapse button on small screens
   loading: "Lorem ipsum…",                         // TODO: replace
 
   sections: {
@@ -28,6 +27,11 @@ export const strings = {
   // "{shown} of {total}" summary under the panel title
   count: (shown, total) => `${shown} / ${total}`,  // TODO: replace
   clearAll: "Lorem",                               // TODO: replace
+
+  // Point tooltip: ship name over the date, formatted with these Intl options
+  tooltipLabel: "Lorem ipsum",                     // TODO: replace (accessible name for the tooltip)
+  dateLocale: "en-GB",
+  dateFormat: { day: "numeric", month: "long", year: "numeric" },
 
   companyInfo: {                                   // TODO: replace; keyed by company id in companies.js
     default: LOREM,

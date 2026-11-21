@@ -11,6 +11,15 @@
       <arcgis-home slot="top-right"></arcgis-home>
     </arcgis-map>
     <aside id="panel" class="panel"></aside>
+    <!-- Hover tooltip for points: anchored to an invisible element that follows the cursor -->
+    <div id="tooltip-anchor"></div>
+    <calcite-tooltip id="point-tooltip" reference-element="tooltip-anchor" placement="right"
+      offset-distance="12" overlay-positioning="fixed">
+      <div class="tooltip-body">
+        <span id="tooltip-ship" class="tooltip-ship"></span>
+        <span id="tooltip-date" class="tooltip-date"></span>
+      </div>
+    </calcite-tooltip>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

@@ -1,12 +1,14 @@
 // Nationality chips, in display order. `value` is the Nationality field in the
-// data; `chip` is the chip fill and `point` the map symbol colour.
+// data. `color` is the one colour to set per nationality: it is used for the
+// map points and the chip, and the selected chip is a darker shade of it
+// (how much darker is --chip-selected-shade in style.css).
 export const nationalities = [
-  { value: "BRITISH", label: "England", chip: "#f2858a", point: "#c8313b" },
-  { value: "FRENCH", label: "France", chip: "#6fa8ec", point: "#1f64c4" },
-  { value: "DUTCH", label: "Netherlands", chip: "#f7c46c", point: "#d9811a" },
-  { value: "SPANISH", label: "Spain", chip: "#8fe08f", point: "#2f9a3a" },
-  { value: "SWEDISH", label: "Sweden", chip: "#f38ff0", point: "#b52ab0" },
-  { value: "DANISH", label: "Denmark", chip: "#c7a6f5", point: "#7442c4" },
-  { value: "HAMBURG", label: "Hamburg", chip: "#b9c3cc", point: "#55606b" },
-  { value: "AMERICAN", label: "United States", chip: "#86dbd6", point: "#178c86" },
+  { value: "BRITISH", label: "England", color: "#af3837" },
+  { value: "FRENCH", label: "France", color: "#649197" },
+  { value: "DUTCH", label: "Netherlands", color: "#edab42" },
+  { value: "SPANISH", label: "Spain", color: "#717e40" },
+  { value: "SWEDISH", label: "Sweden", color: "#7e4c5e" },
+  { value: "DANISH", label: "Denmark", color: "#878480" },
+  { value: "HAMBURG", label: "Hamburg", color: "#878480" },
+  { value: "AMERICAN", label: "United States", color: "#878480" },
 ];
