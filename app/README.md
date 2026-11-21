@@ -1,4 +1,4 @@
-# CLIWOC Explorer web app
+# Logbook Explorer web app
 
 A map of every positioned CLIWOC logbook observation (260,639 points), with
 filters for nationality, voyage origin and destination, company, keywords and
@@ -58,6 +58,7 @@ push to `main`. One-time setup:
 1. Create a GitHub repository and push this project to it (the `.gitignore`
    leaves out the large logbook CSVs, caches and the geodatabase).
 2. In the repository's **Settings → Pages**, set **Source** to **GitHub Actions**.
-3. Push to `main`. The site appears at `https://<user>.github.io/<repo>/`.
+3. Push to `main`. The site appears at `https://<user>.github.io/<repo>/`
+   (currently https://peterincan95.github.io/logbook-explorer/).
 
 The build uses relative paths, so it works under any repository name.

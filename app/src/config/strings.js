@@ -4,7 +4,7 @@
 const LOREM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
 
 export const strings = {
-  pageTitle: "CLIWOC Explorer",
+  pageTitle: "Logbook Explorer",
   panelTitle: "Explore",
   panelToggle: "Explore",                         // label for the collapse button on small screens
   loading: "Lorem ipsum…",                         // TODO: replace
