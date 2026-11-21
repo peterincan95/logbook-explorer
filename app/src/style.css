@@ -1,0 +1,338 @@
+:root {
+  --panel-bg: #1c2a29;
+  --panel-row: #213230;
+  --panel-row-hover: #2a3e3b;
+  --panel-border: #3c524e;
+  --header-bg: linear-gradient(180deg, #6a1f2b 0%, #4a121c 100%);
+  --gold: #d9b65f;
+  --gold-soft: #b8975080;
+  --text: #ece4d0;
+  --text-muted: #a8b2a6;
+  --chip-text: #1b1b1b;
+  --selected: #2d6fd6;
+  --field-bg: #e6e3dc;
+  --field-text: #1b1b1b;
+  --field-muted: #5f5f5f;
+  --font-display: "Cinzel", Georgia, serif;
+  --font-body: "Alegreya Sans", system-ui, sans-serif;
+  --panel-width: 320px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-body);
+  background: #e9dfc6;
+}
+
+arcgis-map {
+  position: absolute;
+  inset: 0;
+}
+
+/* ------------------------------------------------------------ panel */
+
+.panel {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: min(var(--panel-width), calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg);
+  color: var(--text);
+  border: 1px solid var(--gold-soft);
+  border-radius: 6px;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.45), inset 0 0 0 1px rgb(0 0 0 / 0.4);
+  overflow: hidden;
+  z-index: 10;
+
+  /* Calcite tokens, scoped to the panel */
+  --calcite-font-family: var(--font-body);
+  --calcite-color-foreground-1: var(--panel-row);
+  --calcite-color-foreground-2: var(--panel-row-hover);
+  --calcite-color-foreground-3: #2f4441;
+  --calcite-color-background: var(--panel-bg);
+  --calcite-color-text-1: var(--text);
+  --calcite-color-text-2: var(--text-muted);
+  --calcite-color-text-3: var(--text-muted);
+  --calcite-color-border-1: var(--panel-border);
+  --calcite-color-border-2: var(--panel-border);
+  --calcite-color-border-3: var(--panel-border);
+  --calcite-color-brand: var(--gold);
+  --calcite-color-brand-hover: #e8c875;
+  --calcite-color-brand-press: #c29f48;
+  --calcite-color-focus: var(--gold);
+}
+
+body.loading .panel { visibility: hidden; }
+
+.panel-header {
+  background: var(--header-bg);
+  border-bottom: 2px solid var(--gold-soft);
+  padding: 10px 12px 8px 16px;
+}
+
+.panel-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.panel-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.06em;
+  color: #f6ecd2;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+}
+
+.panel-toggle {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-soft);
+  background: rgb(0 0 0 / 0.25);
+  color: var(--gold);
+  cursor: pointer;
+}
+.panel-toggle calcite-icon { transition: transform 0.2s; }
+.panel.collapsed .panel-toggle calcite-icon { transform: rotate(180deg); }
+.panel.collapsed .panel-body { display: none; }
+
+.panel-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 22px;
+  font-size: 0.875rem;
+  color: #e3cfa0;
+  font-variant-numeric: tabular-nums;
+}
+
+.panel-clear {
+  border: none;
+  background: none;
+  color: var(--gold);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.panel-body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ------------------------------------------------------------ blocks */
+
+.filter-block {
+  --calcite-block-heading-text-color: var(--text);
+  --calcite-block-heading-text-color-press: var(--gold);
+  --calcite-block-header-background-color: var(--panel-row);
+  --calcite-block-header-background-color-hover: var(--panel-row-hover);
+  --calcite-block-background-color: #121c1b;
+  --calcite-block-border-color: var(--panel-border);
+  --calcite-block-icon-color: var(--gold);
+  --calcite-block-icon-color-hover: var(--gold);
+  font-size: 1rem;
+}
+
+.block-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 0 6px;
+}
+
+.field-label {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: -4px;
+}
+
+/* ------------------------------------------------------------ chips */
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 6px;
+}
+
+.chip,
+.company-chip {
+  --chip-color: #9fb1c8;
+  /* Bevelled pill: light top, base colour, darker bottom edge */
+  --chip-fill: linear-gradient(180deg,
+    color-mix(in srgb, var(--chip-color) 55%, #fff) 0%,
+    var(--chip-color) 48%,
+    color-mix(in srgb, var(--chip-color) 72%, #000) 100%);
+  --chip-rim: color-mix(in srgb, var(--chip-color) 55%, #000);
+  border-radius: 999px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 28px;
+  padding: 3px 12px;
+  border: 1px solid var(--chip-rim);
+  background: var(--chip-fill);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.55),
+    inset 0 -1px 0 rgb(0 0 0 / 0.2),
+    0 2px 3px rgb(0 0 0 / 0.55);
+  color: var(--chip-text);
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.35);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.1;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.1s, box-shadow 0.15s;
+}
+.chip:hover { filter: brightness(1.08); }
+.chip:active { transform: translateY(1px); }
+.chip:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.chip .chip-close { display: none; }
+.chip[aria-pressed="true"] .chip-close { display: inline-flex; }
+
+/* Selected: deep blue with a gold rim and glow */
+.chip[aria-pressed="true"],
+.company-chip:has(.chip[aria-pressed="true"]) {
+  --chip-color: var(--selected);
+  --chip-rim: var(--gold);
+}
+.chip[aria-pressed="true"] {
+  color: #fff;
+  text-shadow: 0 1px 1px rgb(0 0 0 / 0.5);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.35),
+    0 0 0 1px rgb(0 0 0 / 0.5),
+    0 0 8px rgb(217 182 95 / 0.55),
+    0 2px 3px rgb(0 0 0 / 0.55);
+}
+
+/* Company chips: info button and toggle share one pill, so the pill
+   carries the fill and both buttons are transparent. */
+.company-chip {
+  --chip-color: #8ec3f5;
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--chip-rim);
+  background: var(--chip-fill);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.55),
+    inset 0 -1px 0 rgb(0 0 0 / 0.2),
+    0 2px 3px rgb(0 0 0 / 0.55);
+}
+.company-chip .chip-company,
+.company-chip .chip-company[aria-pressed="true"] {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding-left: 4px;
+}
+.company-chip:has(.chip[aria-pressed="true"]) {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.35),
+    0 0 0 1px rgb(0 0 0 / 0.5),
+    0 0 8px rgb(217 182 95 / 0.55),
+    0 2px 3px rgb(0 0 0 / 0.55);
+}
+.chip-info {
+  display: grid;
+  place-items: center;
+  padding: 0 2px 0 8px;
+  border: none;
+  border-radius: 999px 0 0 999px;
+  background: transparent;
+  color: #1d3d63;
+  cursor: pointer;
+}
+.chip-info:hover { color: #000; }
+.chip-info:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.company-chip:has(.chip[aria-pressed="true"]) .chip-info { color: #fff; }
+.popover-text {
+  margin: 0;
+  padding: 10px 12px;
+  max-width: 260px;
+  font-family: var(--font-body);
+}
+
+/* Nationality chips take their colour from nationalities.js */
+.chip-nat { --chip-color: var(--nat-color); }
+
+/* Keyword chips: smaller, pewter */
+.chip-keyword {
+  --chip-color: #a9aba6;
+  min-height: 24px;
+  padding: 2px 9px;
+  font-size: 0.82rem;
+}
+
+.keyword-search {
+  --calcite-input-background-color: var(--field-bg);
+  --calcite-input-text-color: var(--field-text);
+  --calcite-input-placeholder-text-color: var(--field-muted);
+  --calcite-input-icon-color: var(--field-muted);
+  --calcite-input-border-color: transparent;
+  --calcite-input-corner-radius: 999px;
+  --calcite-input-actions-background-color: var(--field-bg);
+  --calcite-input-actions-icon-color: var(--field-muted);
+  --calcite-input-loading-fill-color: var(--gold);
+}
+
+.location-search {
+  --calcite-combobox-input-background-color: var(--field-bg);
+  --calcite-combobox-input-text-color: var(--field-text);
+  --calcite-combobox-input-border-color: transparent;
+  --calcite-combobox-corner-radius: 999px;
+  --calcite-combobox-icon-color: var(--field-muted);
+  --calcite-combobox-icon-color-hover: var(--field-text);
+  --calcite-combobox-background-color: var(--field-bg);
+  --calcite-combobox-text-color: var(--field-text);
+  --calcite-combobox-text-color-hover: var(--field-text);
+  --calcite-combobox-heading-text-color: var(--field-text);
+  --calcite-combobox-description-text-color: var(--field-muted);
+  --calcite-combobox-item-background-color-hover: #d8d2c3;
+  --calcite-combobox-item-background-color-active: #cfc7b4;
+  --calcite-combobox-selected-icon-color: var(--selected);
+  --calcite-color-text-1: var(--field-text);
+  --calcite-color-text-3: var(--field-muted);
+}
+
+/* ------------------------------------------------------------ slider */
+
+.year-slider {
+  padding: 0 4px;
+  --calcite-slider-graph-color: #6f8c86;
+  --calcite-slider-track-color: #44605b;
+  --calcite-slider-tick-color: #44605b;
+  --calcite-slider-track-fill-color: var(--gold);
+  --calcite-slider-handle-fill-color: var(--panel-bg);
+  --calcite-slider-accent-color: var(--gold);
+  --calcite-slider-text-color: var(--text);
+}
+
+/* ------------------------------------------------------------ small screens */
+
+@media (max-width: 600px) {
+  .panel {
+    top: auto;
+    bottom: 16px;
+    max-height: 60vh;
+  }
+}

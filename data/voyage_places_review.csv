@@ -1,0 +1,313 @@
+﻿place,group_key,voyages,place_type,modern_name,country_code,lat,lon,precision,source,matched_name,confidence,flag_reason,note
+'T NIEUWE DIEP,'T NIEUWE DIEP,1,port,Nieuwediep (Den Helder),NL,52.9599,4.7593,approximate,geonames,Den Helder,medium,"7,621 km from ship-track hints",
+ACARA,ACARA,1,unclear,,,5.556,-0.1969,approximate,geonames,Accra,medium,type unclear,"Likely Accra, Gold Coast; hint positions odd"
+"ALRAD, ST CHRISTOFFEL",ALRAD ST CHRISTOFFEL,1,unclear,,,,,none,,"(weak gazetteer hit: St Petersburg, RU)",low,not found; type unclear,unidentified near St Christopher
+HET DORP DEEL,HET DORP DEEL,1,unclear,,,,,none,,"(weak gazetteer hit: Deel Bridge, IE)",low,not found; type unclear,"Het Dorp Deel unidentified, maybe Dutch village or Deal"
+HAVANNA(?),HAVANNA( ),1,port,Havana,CU,23.133,-82.383,approximate,geonames,Havana,medium,name marked uncertain,
+HOOFDPLANTAGE,HOOFDPLANTAGE,1,unclear,,,,,none,,,low,not found; type unclear,"main plantation, likely Suriname/Guyana"
+ISLA DE LAS CABRAS,ISLA DE LAS CABRAS,1,island,Isla de las Cabras,,,,none,,"(weak gazetteer hit: Isla Inchemó, CL)",low,not found,ambiguous goat island
+ISLA DE FRANCIA,ISLA DE FRANCIA,1,island,Mauritius,MU,-20.3,57.5833,approximate,geonames,Mauritius,medium,"3,390 km from ship-track hints",Isle de France
+ISLA DE CABRAS,ISLA DE CABRAS,1,island,Isla de Cabras,,,,none,,"(weak gazetteer hit: Cabras Island, PR)",low,not found,ambiguous goat island
+INSIEGOERE,INSIEGOERE,1,unclear,,,,,none,,,low,not found; type unclear,Unidentified
+INDIAN ARCHIPELAGO,INDIAN ARCHIPELAGO,1,coast_or_region,Indonesian Archipelago,ID,-5.0,120.0,area,geonames,Indonesia,medium,gazetteer and Claude 356 km apart,
+ILE MIQUELON ET RETOUR A ROCHEFORT,ILE MIQUELON ET RETOUR A ROCHEFORT,1,island,Miquelon,PM,47.0458,-56.3297,approximate,geonames,Île Miquelon,medium,"3,867 km from ship-track hints",
+ISLAND OF BOURBON,ISLAND OF BOURBON,1,island,Réunion,RE,-21.1143,55.5476,approximate,geonames,Réunion,medium,"3,982 km from ship-track hints",
+ISLA DEL PRINCIPE (GUINEA),ISLA DEL PRINCIPE (GUINEA),1,island,Príncipe,ST,1.5793,7.3815,approximate,geonames,Pico do Príncipe,medium,"6,524 km from ship-track hints",
+ISLA DE SANTA CATALINA (SANTA CATARINA-BRASIL?),ISLA DE SANTA CATALINA (SANTA CATARINA BRASIL ),1,island,Santa Catarina Island,BR,-27.598,-48.4858,approximate,geonames,Santa Catarina Island,medium,name marked uncertain,
+ISLA DE PASCUA Y EL CALLAO,ISLA DE PASCUA Y EL CALLAO,1,island,Easter Island,CL,-27.1167,-109.3667,approximate,geonames,Easter Island,medium,"3,627 km from ship-track hints",Also Callao
+ISLA DE ONZEL,ISLA DE ONZEL,1,island,,,,,none,,,low,not found,Unidentified
+HARGATE,HARGATE,1,roadstead,Harwich,GB,52.4805,1.1182,approximate,geonames,Hargate,medium,gazetteer and Claude 153 km apart,"Unclear; anchor hint off Flemish banks, maybe Margate"
+HAMMOZE UK,HAMMOZE UK,1,roadstead,Hamoaze,GB,50.3758,-4.1886,approximate,geonames,Hamoaze,medium,"1,627 km from ship-track hints",Plymouth
+ISLE MINGAUT,ISLE MINGAUT,1,unclear,,,,,none,,,low,not found; type unclear,Unidentified
+ISLE DE LA RAFALLE,ISLE DE LA RAFALLE,1,unclear,,FR,,,none,,,low,not found; type unclear,Unidentified; possibly near French Atlantic coast (Rafale?)
+JEEREN,JEEREN,1,unclear,,,,,none,,,low,not found; type unclear,Unidentified; maybe Jeeren/Yeren
+JAISSEAU,JAISSEAU,1,roadstead,,,,,none,,,low,not found,Unidentified; possibly vaisseau
+ISLE ST BERNABÉ,ISLE ST BERNABE,1,island,Saint-Barnabé,,,,none,,"(weak gazetteer hit: Saint-Barnabé, CA)",low,not found,"Uncertain; possibly Île Saint-Barnabé, Marseille"
+ISLE SAINE BERNABÉ,ISLE SAINE BERNABE,1,island,Saint-Barnabé,,,,none,,"(weak gazetteer hit: Saint-Barnabé, CA)",low,not found,Uncertain
+HALIFAX (CHIBUCTO HARBOUR),HALIFAX (CHIBUCTO HARBOUR),1,port,Halifax,CA,44.6427,-63.5769,approximate,geonames,Halifax,medium,"1,147 km from ship-track hints",Chebucto Harbour
+GULF OF MAINE,GULF OF MAINE,1,coast_or_region,Gulf of Maine,,43.0,-68.5,area,claude,"(weak gazetteer hit: Gulf Hill, US)",medium,"no confident gazetteer match, Claude's estimate",
+"GUIYANA, VOOR DE KUST",GUIYANA VOOR DE KUST,1,coast_or_region,Guiana coast,,5.0,-55.0,area,claude,"(weak gazetteer hit: Guyana, GY)",medium,"no confident gazetteer match, Claude's estimate",
+KAAP CORS,KAAP CORS,1,cape_or_strait,Cape Coast,GH,5.1,-1.25,approximate,claude,"(weak gazetteer hit: Cape Canaveral, US)",medium,"no confident gazetteer match, Claude's estimate",Cape Corse
+KAAP (OF PUNT) JAIJL OF CAIJL?,KAAP (OF PUNT) JAIJL OF CAIJL,1,cape_or_strait,Kayalpattinam,IN,8.5714,78.1199,approximate,geonames,Kayalpattinam,medium,name marked uncertain,Uncertain; Tuticorin area
+JITOIS,JITOIS,1,unclear,,,,,none,,,low,not found; type unclear,Unidentified
+GROTE BOGT VAN T VOORLAND,GROTE BOGT VAN T VOORLAND,1,coast_or_region,Voorland bay,,,,none,,,low,not found,Unclear
+GROTE BOGT,GROTE BOGT,1,coast_or_region,,,,,none,,,low,not found,Unclear
+GROSPE ROCHE,GROSPE ROCHE,1,unclear,,,,,none,,,low,not found; type unclear,Unidentified rock
+GROS ISLEN,GROS ISLEN,1,island,,,,,none,,,low,not found,Unidentified Gros Islet?
+KERKBAAI,KERKBAAI,1,roadstead,Kerkbaai,,,,none,,,low,not found,unknown Church Bay
+KEGERREE,KEGERREE,1,port,Kedgeree,IN,21.8575,87.9116,approximate,geonames,Khejuri II,medium,"9,743 km from ship-track hints",Hooghly river; hint is wrong
+KASTEEL VAN BOULIJN,KASTEEL VAN BOULIJN,1,unclear,,,,,none,,,low,not found; type unclear,Castle of Boulogne? unclear
+KASTEEL SAVENS,KASTEEL SAVENS,1,unclear,,,,,none,,,low,not found; type unclear,unclear
+KUST VAN DE NOORDZEE,KUST VAN DE NOORDZEE,1,coast_or_region,North Sea coast,,53.5,3.5,area,claude,"(weak gazetteer hit: North Sea, ?)",medium,"no confident gazetteer match, Claude's estimate",
+KREEK WIKKI,KREEK WIKKI,1,unclear,,,,,none,,,low,not found; type unclear,Wikki creek unknown
+KOPENHAGEN,KOPENHAGEN,1,port,Copenhagen,DK,55.6759,12.5655,approximate,geonames,Copenhagen,medium,"1,590 km from ship-track hints",
+L'ISLE ARAMIEN,L'ISLE ARAMIEN,1,unclear,,MQ,14.6667,-61.0,approximate,geonames,Martinique,medium,type unclear,anchor hint near Martinique; unidentified
+L'AVANT-GARDE,L'AVANT GARDE,1,unclear,,,,,none,,,low,not found; type unclear,"Avant-garde, probably a ship/fleet position"
+L'ARMONT,L'ARMONT,1,unclear,,,,,none,,,low,not found; type unclear,
+KUST VAN NEDERLANDS GUJANA,KUST VAN NEDERLANDS GUJANA,1,coast_or_region,Coast of Guyana,GY,5.0,-59.0,area,geonames,Guyana,medium,gazetteer and Claude 219 km apart,"Dutch Guiana (Berbice, Demerara)"
+LA BARQUE,LA BARQUE,1,unclear,,,,,none,,,low,not found; type unclear,"La Barque, a boat"
+GRENADE,GRENADE,1,island,Grenada,GD,12.12,-61.68,approximate,claude,"(weak gazetteer hit: Volcán Mombacho, NI)",medium,"no confident gazetteer match, Claude's estimate",
+GREAT ST LAWRENCE HARBOUR,GREAT ST LAWRENCE HARBOUR,1,port,Great St Lawrence Harbour,CA,46.8999,-55.365,approximate,geonames,Great St. Lawrence Harbour,medium,"3,549 km from ship-track hints",Newfoundland Burin Peninsula; arrival hint is at sea off Cornwall
+GRATIOSA,GRATIOSA,1,island,Graciosa,PT,39.0541,-28.0119,approximate,geonames,Graciosa,medium,"4,398 km from ship-track hints",Azores; could be Canaries La Graciosa
+GRAND COURLAUDE,GRAND COURLAUDE,1,unclear,,,,,none,,,low,not found; type unclear,Grand Courlande unidentified
+GRANADE,GRANADE,1,island,Grenada,GD,12.12,-61.68,approximate,claude,"(weak gazetteer hit: Volcán Mombacho, NI)",medium,"no confident gazetteer match, Claude's estimate",
+LA GRANDE BAYE,LA GRANDE BAYE,1,roadstead,,,,,none,,,low,not found,"Grande Baie, generic"
+LA GRAND BAYE,LA GRAND BAYE,1,roadstead,,,,,none,,,low,not found,"Grande Baie, generic"
+LA ENSENADA,LA ENSENADA,1,roadstead,Ensenada,,,,none,,"(weak gazetteer hit: Ciénaga La Ensenada, CO)",low,not found,ambiguous
+LA CÔTE DE CHINE,LA COTE DE CHINE,1,coast_or_region,Coast of China,CN,35.0,105.0,area,geonames,China,medium,"gazetteer and Claude 1,642 km apart",South China coast
+LA GRANDE RADE DECHEF DE BAYE,LA GRANDE RADE DECHEF DE BAYE,1,roadstead,,,,,none,,,low,not found,"Grande rade, unclear location"
+LA ROCHE,LA ROCHE,1,unclear,,,,,none,,"(weak gazetteer hit: La Roche-sur-Yon, FR)",low,not found; type unclear,too ambiguous
+LA RIVIERE FEROU,LA RIVIERE FEROU,1,unclear,,,,,none,,,low,not found; type unclear,unidentified river
+LE CUL DE SAC,LE CUL DE SAC,1,roadstead,Cul-de-Sac,,,,none,,"(weak gazetteer hit: Cul de Sac, SX)",low,not found,"ambiguous; French logbook 1788, possibly Caribbean (Martinique/Saint-Domingue)"
+LE BAT,LE BAT,1,unclear,,,,,none,,,low,not found; type unclear,unidentifiable
+LAGOS,LAGOS,1,port,Lagos,PT,37.1,-8.67,approximate,claude,"(weak gazetteer hit: Lagos, NG)",medium,"no confident gazetteer match, Claude's estimate","hint lon seems off; Lagos, Algarve"
+LA TRAVERSE,LA TRAVERSE,1,unclear,,,,,none,,,low,not found; type unclear,"La Traverse, unidentifiable"
+LA ROQUE,LA ROQUE,1,unclear,,,,,none,,"(weak gazetteer hit: Mariano Roque Alonso, PY)",low,not found; type unclear,ambiguous
+GASPY BAY,GASPY BAY,1,roadstead,Gaspé Bay,CA,48.7669,-64.2888,approximate,geonames,Baie de Gaspé,medium,"1,939 km from ship-track hints",
+GALLIONS REACH (UK),GALLIONS REACH (UK),1,roadstead,Galleons Reach,GB,51.5,0.07,approximate,claude,"(weak gazetteer hit: Galleons Reach, GB)",medium,"no confident gazetteer match, Claude's estimate",Thames
+FRENTE A LA CASA REAL,FRENTE A LA CASA REAL,1,roadstead,,,,,none,,,low,not found,in front of the Royal House; unidentified
+FRANCISCO IN LEANDO BAAY,FRANCISCO IN LEANDO BAAY,1,roadstead,Bahía de San Francisco de Leando,,,,none,,,low,not found,unidentified; possibly San Francisco bay
+LE TRAVERS DE LA CALLE DU ROI,LE TRAVERS DE LA CALLE DU ROI,1,roadstead,,,,,none,,,low,not found,off Rue du Roi; unidentified
+LE PORT DE SONDER,LE PORT DE SONDER,1,port,,,,,none,,,low,not found,Port de Sonder unidentified
+FORT ST. ANTOINE,FORT ST ANTOINE,1,port,Fort Saint-Antoine,,,,none,,,low,not found,unidentified
+FORT SAINT PIERRE,FORT SAINT PIERRE,1,port,Saint-Pierre,,,,none,,"(weak gazetteer hit: St Petersburg, RU)",low,not found,ambiguous; Martinique or Réunion etc.
+FORT SABLE,FORT SABLE,1,port,Fort Sable,,,,none,,,low,not found,unidentified
+LEONIDE,LEONIDE,1,unclear,,,,,none,,"(weak gazetteer hit: Parc Léonide-Laberge, CA)",low,not found; type unclear,Possibly a ship or place; unidentifiable
+LOUISBOURG ET RTOUR A ROCHEFORT,LOUISBOURG ET RTOUR A ROCHEFORT,1,port,Louisbourg,CA,45.9205,-59.971,approximate,geonames,Louisbourg,medium,"4,303 km from ship-track hints",Voyage to Louisbourg and return to Rochefort; first port used
+LOUISBOURG ET RETOUR A L'ISLE D'AIX,LOUISBOURG ET RETOUR A L'ISLE D'AIX,1,port,Louisbourg,CA,45.9205,-59.971,approximate,geonames,Louisbourg,medium,"4,136 km from ship-track hints",Return to Île d'Aix
+LONG BAY JAMAICA,LONG BAY JAMAICA,1,roadstead,"Long Bay, Jamaica",JM,17.95,-76.35,approximate,claude,"(weak gazetteer hit: Walvis Bay, NA)",medium,"no confident gazetteer match, Claude's estimate",Uncertain which Long Bay in Jamaica
+"FORT ORANJE, GHANA",FORT ORANJE GHANA,1,port,"Fort Orange, Axim",GH,5.0,-1.63,approximate,claude,,medium,"no gazetteer match, Claude's estimate","Fort Oranje at Sekondi, Ghana"
+MACCAO,MACCAO,1,port,Macau,MO,22.2006,113.5461,approximate,geonames,Macao,medium,"3,488 km from ship-track hints",Arrival hint off
+MAKINDA CREEK,MAKINDA CREEK,1,roadstead,Makinda Creek,,,,none,,,low,not found,unidentified; hint is off Gulf of Cadiz
+FLORA,FLORA,1,unclear,,,,,none,,"(weak gazetteer hit: Flora, US)",low,not found; type unclear,probably a ship or unidentified
+FIDOR,FIDOR,1,unclear,,,,,none,,"(weak gazetteer hit: Fidor, PL)",low,not found; type unclear,unidentified
+FERROL?,FERROL,1,port,Ferrol,ES,43.4845,-8.2329,approximate,geonames,Ferrol,medium,name marked uncertain,
+FERRO,FERRO,1,island,El Hierro,ES,27.742,-17.9993,approximate,geonames,El Hierro,medium,"3,188 km from ship-track hints",Canary Islands; hint is wrong
+"FERMOUSE, NF",FERMOUSE NF,1,port,Fermeuse,CA,46.9763,-52.9564,approximate,geonames,Fermeuse,medium,"2,749 km from ship-track hints",Newfoundland
+MAKKELIKHOUT,MAKKELIKHOUT,1,unclear,,,,,none,,,low,not found; type unclear,unidentified
+MARGUERITE,MARGUERITE,1,unclear,,,,,none,,"(weak gazetteer hit: Sainte-Marguerite, RE)",low,not found; type unclear,maybe Margarita Island or ship
+MARGRET ROAD (UK),MARGRET ROAD (UK),1,roadstead,St Margaret's Roads,GB,51.4125,1.3861,approximate,geonames,Margate Road,medium,"1,347 km from ship-track hints",ambiguous; hint points to Scilly (St Mary's Road?)
+MARACK BAAIJ,MARACK BAAIJ,1,unclear,,,,,none,,,low,not found; type unclear,unidentified
+MARTRON,MARTRON,1,unclear,,,,,none,,"(weak gazetteer hit: Boresse-et-Martron, FR)",low,not found; type unclear,unidentified
+MELILLA,MELILLA,1,port,Melilla,ES,35.2937,-2.9383,approximate,geonames,Melilla,medium,"1,454 km from ship-track hints",
+"MAURITIUS, BATAVIA",MAURITIUS BATAVIA,1,unclear,,,,,none,,"(weak gazetteer hit: Mauritius, MU)",low,not found; type unclear,voyage from Mauritius to Batavia
+ESTACIO,ESTACIO,1,unclear,,,,,none,,"(weak gazetteer hit: Estácio, BR)",low,not found; type unclear,unidentified
+"MONTEVIDEO (PRIMERO VAN A STA. CATALINA, BRASIL)",MONTEVIDEO (PRIMERO VAN A STA CATALINA BRASIL),1,port,Montevideo,UY,-34.9033,-56.1882,approximate,geonames,Montevideo,medium,"9,779 km from ship-track hints",
+MODDERBANK/BRAMSPUNT,MODDERBANK BRAMSPUNT,1,coast_or_region,Modderbank near Bramspunt,,,,none,,"(weak gazetteer hit: Braams Punt, SR)",low,not found,unclear sandbank
+MODDERBANK VAN SURINAME,MODDERBANK VAN SURINAME,1,coast_or_region,Mud bank off Suriname,SR,6.0,-55.2,area,claude,"(weak gazetteer hit: Embassy of the Republic of Suriname, US)",medium,"no confident gazetteer match, Claude's estimate",mud bank off coast
+MOCHA (MOKHA),MOCHA (MOKHA),1,port,Mokha,YE,13.3181,43.2499,approximate,geonames,Mocha,medium,"1,108 km from ship-track hints",
+MORAVIA,MORAVIA,1,unclear,,,,,none,,,low,not found; type unclear,Moravia unidentified; hint inland Spain
+EL PLACER DE CAYO GÜINCHOS,EL PLACER DE CAYO GUINCHOS,1,coast_or_region,Cayo Güinchos,CU,22.95,-78.87,area,claude,"(weak gazetteer hit: Guinchos Cay, BS)",medium,"no confident gazetteer match, Claude's estimate",cay on Sabana-Camagüey
+EL MORRO,EL MORRO,1,unclear,El Morro,,,,none,,"(weak gazetteer hit: El Morro, VE)",low,not found; type unclear,ambiguous; many forts
+EL ESTARIO,EL ESTARIO,1,unclear,,,,,none,,,low,not found; type unclear,unidentified
+EL ESTACIO?,EL ESTACIO,1,unclear,,,,,none,,,low,not found; type unclear; name marked uncertain,unidentified
+EL CALLAO - LIMA,EL CALLAO LIMA,1,port,Callao,PE,-12.0516,-77.1345,approximate,geonames,Callao,medium,"1,014 km from ship-track hints",
+MONTSERAT,MONTSERAT,1,island,Montserrat,MS,16.7404,-62.1898,approximate,geonames,Montserrat,medium,"1,183 km from ship-track hints",
+EAST RIVER,EAST RIVER,1,cape_or_strait,East River,US,37.9389,-76.2528,approximate,geonames,Potomac River,medium,gazetteer and Claude 369 km apart,New York; hint is at sea
+DUSSIS HARBOUR,DUSSIS HARBOUR,1,roadstead,Dusky Harbour,,,,none,,,low,not found,uncertain; maybe Newfoundland/Quebec 1761
+DUSSES HARBOUR,DUSSES HARBOUR,1,roadstead,Dusky Harbour,,,,none,,,low,not found,uncertain; same as Dussis Harbour
+MOUILLAGE DU PARIS,MOUILLAGE DU PARIS,1,roadstead,,,,,none,,,low,not found,"anchorage of the ship Paris, unclear"
+MOTKREEK (SURINAME),MOTKREEK (SURINAME),1,roadstead,"Motkreek, Suriname",SR,5.9,-55.0,approximate,claude,"(weak gazetteer hit: qax mot Conservation Area, CA)",medium,"no confident gazetteer match, Claude's estimate",hint inconsistent
+MOTHERWELL,MOTHERWELL,1,unclear,,,,,none,,,low,not found; type unclear,likely ship name
+NEW CALEDONIA,NEW CALEDONIA,1,island,New Caledonia,NC,-21.5,165.5,approximate,geonames,New Caledonia,medium,"2,858 km from ship-track hints",
+NEDERLANDS INDIË,NEDERLANDS INDIE,1,country,Dutch East Indies (Indonesia),ID,-5.0,120.0,area,geonames,Indonesia,medium,gazetteer and Claude 356 km apart,
+NASSIRES,NASSIRES,1,unclear,,,,,none,,,low,not found; type unclear,
+NARVICK,NARVICK,1,port,Narvik,NO,68.4384,17.4272,approximate,geonames,Narvik,medium,"1,248 km from ship-track hints",uncertain
+NANTUCKET,NANTUCKET,1,island,Nantucket,US,41.2736,-70.0433,approximate,geonames,Nantucket Island,medium,"3,756 km from ship-track hints",
+DUNGEONESS,DUNGEONESS,1,cape_or_strait,Dungeness,GB,50.9119,0.9759,approximate,geonames,Dungeness,medium,"10,000 km from ship-track hints",
+DOMINIOS DE AMÉRICA,DOMINIOS DE AMERICA,1,coast_or_region,Spanish America,,,,none,,,low,not found,Spanish dominions in America; arrival hint near Río de la Plata
+NORTE DE NUEVA ESPAÑA,NORTE DE NUEVA ESPANA,1,coast_or_region,Northern New Spain,,,,none,,,low,not found,hint at sea in Pacific is unreliable
+"NORFOLK, VIRGINIA",NORFOLK VIRGINIA,1,port,Norfolk,US,36.8468,-76.2852,approximate,geonames,Norfolk,medium,"2,964 km from ship-track hints",
+DESCONOCIDO (CREO QUE ACAPULCO),DESCONOCIDO (CREO QUE ACAPULCO),1,unclear,Acapulco,MX,16.8494,-99.9089,approximate,geonames,Acapulco de Juárez,medium,type unclear,"unknown place, possibly Acapulco"
+NOORDHOEK VOORLAND,NOORDHOEK VOORLAND,1,cape_or_strait,,,,,none,,,low,not found,North Foreland? unclear
+NOORD AMERIKA,NOORD AMERIKA,1,coast_or_region,North America,,40.0,-100.0,area,claude,"(weak gazetteer hit: Contiguous United States, US)",medium,"no confident gazetteer match, Claude's estimate",
+OFF HONINGS HARBOUR,OFF HONINGS HARBOUR,1,unclear,,,,,none,,,low,not found; type unclear,Honings Harbour unknown; possibly Honningsvåg
+NOUVEAU FÉROLLE,NOUVEAU FEROLLE,1,unclear,,,,,none,,,low,not found; type unclear,Nouveau Férolle uncertain
+OLRAD,OLRAD,1,unclear,,,,,none,,,low,not found; type unclear,Olrad unknown
+DE SINGELS,DE SINGELS,1,unclear,,,,,none,,,low,not found; type unclear,possibly Singels off Texel/Vlieland
+DE EILANDEN DINA EN MAARSEVEEN,DE EILANDEN DINA EN MAARSEVEEN,1,island,Dyer Island,ZA,-34.68,19.42,approximate,claude,"(weak gazetteer hit: Danger Point, ZA)",medium,"no confident gazetteer match, Claude's estimate",uncertain identification
+DE DEURLOO,DE DEURLOO,1,unclear,,,,,none,,,low,not found; type unclear,Deurloo ship/channel unknown
+DE COULON,DE COULON,1,unclear,,,,,none,,,low,not found; type unclear,unknown
+OLRAAD,OLRAAD,1,unclear,,,,,none,,,low,not found; type unclear,variant of Olrad
+PACÍFICO,PACIFICO,1,coast_or_region,Pacific Ocean,,0.0,-140.0,area,claude,"(weak gazetteer hit: South Pacific Ocean, ?)",medium,"no confident gazetteer match, Claude's estimate",
+OOSTEINDE (DW),OOSTEINDE (DW),1,unclear,,,,,none,,,low,not found; type unclear,Ooststeinde? unclear
+DARLEAUS,DARLEAUS,1,unclear,,,,,none,,,low,not found; type unclear,
+DAGERAAD,DAGERAAD,1,unclear,,,,,none,,,low,not found; type unclear,Dageraad is a ship name?
+CÁDIZ ?,CADIZ,1,port,Cádiz,ES,36.5267,-6.2891,approximate,geonames,Cadiz,medium,name marked uncertain,
+PAL,PAL,1,unclear,,,,,none,,,low,not found; type unclear,
+PACÍFICO(MAR DEL SUR),PACIFICO(MAR DEL SUR),1,coast_or_region,Pacific Ocean,,0.0,-140.0,area,claude,"(weak gazetteer hit: South Pacific Ocean, ?)",medium,"no confident gazetteer match, Claude's estimate",
+PEVEL,PEVEL,1,unclear,,,,,none,,,low,not found; type unclear,
+PETITE COUSLANDE,PETITE COUSLANDE,1,unclear,,,,,none,,,low,not found; type unclear,
+PETIT FOURLANTE,PETIT FOURLANTE,1,unclear,,,,,none,,,low,not found; type unclear,
+PENSICOLA FLORIDA,PENSICOLA FLORIDA,1,port,Pensacola,US,30.4213,-87.2169,approximate,geonames,Pensacola,medium,"1,847 km from ship-track hints",
+DE BESTE RHEEDE,DE BESTE RHEEDE,1,roadstead,,,,,none,,,low,not found,"The best roads, generic"
+PLANTAGE GOD ZIET ALLES,PLANTAGE GOD ZIET ALLES,1,unclear,,,,,none,,,low,not found; type unclear,"Plantation God Sees All, likely Suriname"
+PLANTAGE DE DEBORA,PLANTAGE DE DEBORA,1,unclear,"Debora plantation, Suriname",SR,5.8,-55.2,approximate,claude,"(weak gazetteer hit: Débora Carrizal, MX)",low,"no confident gazetteer match, Claude's estimate; type unclear","Suriname plantation, location uncertain"
+PLANTAGE DE DAGERAAD,PLANTAGE DE DAGERAAD,1,unclear,"Dageraad plantation, Suriname",SR,5.7833,-54.8833,approximate,geonames,Dageraad,medium,type unclear,"Suriname plantation, uncertain"
+PLANTAGE BACHELS,PLANTAGE BACHELS,1,unclear,"Bachelor's plantation, Suriname",SR,5.8,-55.2,approximate,claude,"(weak gazetteer hit: Bachelors Adventure, GY)",low,"no confident gazetteer match, Claude's estimate; type unclear",uncertain
+PLACENTIA,PLACENTIA,1,port,Placentia,CA,47.2332,-53.9648,approximate,geonames,Placentia,medium,"1,441 km from ship-track hints",Newfoundland
+PLANTAGE SOESDIJK. BORSELEN,PLANTAGE SOESDIJK BORSELEN,1,unclear,"Soesdijk plantation, Suriname",SR,5.8,-55.2,approximate,claude,"(weak gazetteer hit: Johan van Soesdijkstraat, NL)",low,"no confident gazetteer match, Claude's estimate; type unclear",uncertain
+PLANTAGE SOESDIJK,PLANTAGE SOESDIJK,1,unclear,"Soesdijk plantation, Suriname",SR,5.8,-55.2,approximate,claude,"(weak gazetteer hit: Johan van Soesdijkstraat, NL)",low,"no confident gazetteer match, Claude's estimate; type unclear",uncertain
+PLANTAGE RESOLUTIE N 1/2 O,PLANTAGE RESOLUTIE N 1 2 O,1,unclear,"Resolutie plantation, Suriname",SR,5.9333,-55.1167,approximate,geonames,De Resolutie,medium,type unclear,uncertain
+PLANTAGE OOSTERMEER,PLANTAGE OOSTERMEER,1,unclear,"Oostermeer plantation, Suriname",SR,5.8,-55.2,approximate,claude,"(weak gazetteer hit: Eastermar, NL)",low,"no confident gazetteer match, Claude's estimate; type unclear",uncertain
+PLANTAGE HELVETIA,PLANTAGE HELVETIA,1,unclear,"Helvetia plantation, Suriname",SR,5.8,-55.2,approximate,claude,"(weak gazetteer hit: Switzerland, CH)",low,"no confident gazetteer match, Claude's estimate; type unclear",uncertain
+PLANTAGE GOED LAND GOED FORTUIJN,PLANTAGE GOED LAND GOED FORTUIJN,1,unclear,Goed Land Goede Fortuin plantation,SR,5.8,-55.2,approximate,claude,,low,"no gazetteer match, Claude's estimate; type unclear",uncertain
+POORTLAND,POORTLAND,1,port,Portland,AU,-38.35,141.6,approximate,claude,"(weak gazetteer hit: Portland, US)",medium,"no confident gazetteer match, Claude's estimate",Uncertain; could be Portland UK
+PONGER,PONGER,1,port,Penajam,MY,1.3651,104.1118,approximate,geonames,Pengerang,medium,gazetteer and Claude 217 km apart,Uncertain; Malacca Strait
+POLOC BABIE,POLOC BABIE,1,island,Pulau Babi,ID,-5.8,106.28,approximate,claude,"(weak gazetteer hit: Pulau Babi, ID)",medium,"no confident gazetteer match, Claude's estimate",uncertain
+POINT PALMIRA,POINT PALMIRA,1,cape_or_strait,Point Palmyras,IN,20.7713,86.9755,approximate,geonames,Palmyras Point,medium,"1,954 km from ship-track hints",Odisha coast; hint unreliable
+PLYMOUTH?,PLYMOUTH,1,port,Plymouth,GB,50.3715,-4.143,approximate,geonames,Plymouth,medium,name marked uncertain,
+CROC,CROC,1,unclear,,,,,none,,,low,not found; type unclear,Anchor hint is mid-Atlantic; unclear
+PORMAN,PORMAN,1,unclear,,,,,none,,,low,not found; type unclear,
+COUR JEANS,COUR JEANS,1,unclear,Cours Jean?,FR,43.5681,7.0774,approximate,geonames,Golfe-Juan,medium,type unclear,Possibly Golfe-Juan; anchor hint near Antibes
+COULON,COULON,1,unclear,,,,,none,,,low,not found; type unclear,Maybe Colon or Coulon; unclear
+COSTÉ DE MOY,COSTE DE MOY,1,coast_or_region,,,,,none,,,low,not found,Unclear
+COSTA FIRME DE LA AMÉRICA,COSTA FIRME DE LA AMERICA,1,coast_or_region,Spanish Main (Tierra Firme),,10.5,-70.0,area,claude,"(weak gazetteer hit: Terra Firma Islands, AQ)",medium,"no confident gazetteer match, Claude's estimate",Northern coast of South America
+CORVO,CORVO,1,island,Corvo Island,PT,39.7018,-31.1053,approximate,geonames,Corvo Island,medium,"9,560 km from ship-track hints",Azores
+PORT MARCHAND,PORT MARCHAND,1,port,Port Marchand (Nuku Hiva area),,,,none,,"(weak gazetteer hit: Poste Marchand, HT)",low,not found,"French 1776; unclear, possibly Mauritius Port Louis area"
+CONSTAPELS,CONSTAPELS,1,roadstead,"Constabels (Kaap Constable), Suriname/French Guiana",GF,4.81,-52.02,approximate,claude,"(weak gazetteer hit: Constable Pynt, GL)",medium,"no confident gazetteer match, Claude's estimate",Near Cayenne mouth
+PRAMI SANG,PRAMI SANG,1,unclear,Pariaman,ID,-0.619,100.12,approximate,geonames,Pariaman,medium,type unclear,Guess
+POST ST ANDRIES,POST ST ANDRIES,1,port,Fort St Andries,GH,,,none,,"(weak gazetteer hit: Fort Zevenbergen, BE)",low,not found,Uncertain
+POST ORANJE,POST ORANJE,1,port,"Post Oranje, Suriname",SR,6.32,-54.24,approximate,claude,"(weak gazetteer hit: Post, US)",medium,"no confident gazetteer match, Claude's estimate",Fort on Corantijn/Suriname river
+PORTSMOUTH (AFTER CRUISING TOWARDS FINISTERRE),PORTSMOUTH (AFTER CRUISING TOWARDS FINISTERRE),1,port,Portsmouth,GB,50.799,-1.0913,approximate,geonames,Portsmouth,medium,"1,000 km from ship-track hints",
+COCKHAM WOOD UK,COCKHAM WOOD UK,1,unclear,Cockham Wood,GB,51.4147,0.5359,approximate,nominatim,Cockham Wood,medium,type unclear,Medway fort; arrival hint is at sea
+PRINCE OF WALES ISLAND (PENANG),PRINCE OF WALES ISLAND (PENANG),1,island,Penang Island,MY,5.3729,100.2496,approximate,geonames,Penang,medium,"1,422 km from ship-track hints",
+PULO LAMANANG,PULO LAMANANG,1,unclear,,,,,none,,,low,not found; type unclear,unidentified
+PUERTO PAITA,PUERTO PAITA,1,port,Paita,PE,-5.0892,-81.1144,approximate,geonames,Paita,medium,"15,192 km from ship-track hints",
+PUERTO NAVIOS,PUERTO NAVIOS,1,unclear,Puerto Navíos,,,,none,,,low,not found; type unclear,uncertain
+CLAPPER EILAND,CLAPPER EILAND,1,island,Clapper Island,,,,none,,,low,not found,unidentified
+CHRISTIAAN ZAND,CHRISTIAAN ZAND,1,cape_or_strait,Cristiaan Zand,,49.9,-6.3,approximate,claude,,medium,"no gazetteer match, Claude's estimate",uncertain; hint near Scilly
+PULO PISANG,PULO PISANG,1,island,Pulau Pisang,MY,4.3706,101.118,approximate,geonames,Pulau Pisang,medium,gazetteer and Claude 400 km apart,Malacca Strait; uncertain
+PULO PERRA,PULO PERRA,1,island,Pulau Perak,ID,6.45,93.7,approximate,claude,"(weak gazetteer hit: Pulau Tukun Perak, MY)",medium,"no confident gazetteer match, Claude's estimate",Pulo Perak near Aceh; uncertain
+RAMHEAD,RAMHEAD,1,cape_or_strait,Rame Head,GB,50.3112,-4.2237,approximate,geonames,Rame Head,medium,"3,555 km from ship-track hints",hint at sea
+CHENAL DE CHARRA,CHENAL DE CHARRA,1,cape_or_strait,Chenal de Charra,,,,none,,,low,not found,unidentified
+CHAMA,CHAMA,1,unclear,,,,,none,,"(weak gazetteer hit: Hama, SY)",low,not found; type unclear,ambiguous
+CESERIJEN,CESERIJEN,1,coast_or_region,Chesapeake Islands,,20.3,88.32,area,claude,,medium,"no gazetteer match, Claude's estimate","uncertain, Bay of Bengal"
+CAYER,CAYER,1,unclear,,,,,none,,"(weak gazetteer hit: Lac Cayer, CA)",low,not found; type unclear,unidentified
+CASTILLO DE LAS COBRAS,CASTILLO DE LAS COBRAS,1,cape_or_strait,Castillo de las Cobras,,,,none,,,low,not found,unidentified
+RICT EILAND,RICT EILAND,1,island,Rict Island,,,,none,,,low,not found,unidentified
+REET EILAND,REET EILAND,1,island,Reet Island,,,,none,,,low,not found,unidentified
+REALEJO,REALEJO,1,port,El Realejo,NI,12.5433,-87.1652,approximate,geonames,El Realejo,medium,"1,332 km from ship-track hints",Nicaragua port; arrival hint is off
+RANCKERA DE INDIOS BAAI,RANCKERA DE INDIOS BAAI,1,roadstead,Ranchería de Indios Bay,,,,none,,"(weak gazetteer hit: Vía a Mesa de Indios, VE)",low,not found,Uncertain; possibly Caribbean coast
+CARNARR BAY,CARNARR BAY,1,roadstead,Carnarvon Bay,,,,none,,"(weak gazetteer hit: Coral Bay, AU)",low,not found,"Uncertain; maybe Caernarfon Bay, Wales"
+CARLISLE BAY FALKLAND ISLANDS,CARLISLE BAY FALKLAND ISLANDS,1,roadstead,"Carlisle Bay, Falkland Islands",FK,-51.3,-60.5,approximate,claude,"(weak gazetteer hit: Carlisle Bay, BB)",medium,"no confident gazetteer match, Claude's estimate",Uncertain; possibly Port Egmont area
+RIVIER BASSE? EN DE HEUVEL?,RIVIER BASSE EN DE HEUVEL,1,coast_or_region,Liberia coast river,LR,6.2333,-9.8333,area,geonames,Grand Bassa County,medium,name marked uncertain,Uncertain; possibly Basse and Heuvel; hint near Cape Palmas
+RIVER OF ST LAWRENCE,RIVER OF ST LAWRENCE,1,coast_or_region,Saint Lawrence River,CA,48.0,-69.0,area,claude,"(weak gazetteer hit: St. Lawrence River, CA)",medium,"no confident gazetteer match, Claude's estimate",
+CAPE ST NICHOLAS,CAPE ST NICHOLAS,1,cape_or_strait,Cap Saint-Nicolas,HT,19.65,-73.4167,approximate,geonames,Pointe Gaïac,medium,"6,717 km from ship-track hints",Haiti; hint is at sea near Channel
+ROOBAAIJ,ROOBAAIJ,1,roadstead,Rooi Baai,,,,none,,"(weak gazetteer hit: Raudfjorden, SJ)",low,not found,unclear
+SACCONDU,SACCONDU,1,port,Sakondu,,,,none,,,low,not found,unclear
+SABLE ISLAND (NEWFOUNDLAND),SABLE ISLAND (NEWFOUNDLAND),1,island,Sable Island,CA,43.93,-59.91,approximate,claude,"(weak gazetteer hit: Île de Sable, PF)",medium,"no confident gazetteer match, Claude's estimate",
+SAINTE MARIE,SAINTE MARIE,1,unclear,Sainte-Marie,,-16.9016,49.8978,approximate,geonames,Nosy Boraha,medium,type unclear,"French 1766; likely Île Sainte-Marie, Madagascar, but uncertain"
+SAINTE BARBE,SAINTE BARBE,1,unclear,Sainte-Barbe,,,,none,,"(weak gazetteer hit: Sainte-Barbe, CA)",low,not found; type unclear,ambiguous
+SAN NICOLAS,SAN NICOLAS,1,unclear,San Nicolas,,,,none,,"(weak gazetteer hit: San Nicolás de los Garza, MX)",low,not found; type unclear,ambiguous
+SAN LORENZO DE NUCA Y VUELTA,SAN LORENZO DE NUCA Y VUELTA,1,roadstead,Nootka Sound,CA,49.7231,-126.4587,approximate,geonames,Nootka Sound SPB,medium,"3,638 km from ship-track hints",Nuca=Nootka; round trip from San Blas; hint is departure area
+SAN LORENZO DE NUCA,SAN LORENZO DE NUCA,1,roadstead,Nootka Sound,CA,49.7231,-126.4587,approximate,geonames,Nootka Sound SPB,medium,"3,562 km from ship-track hints",Nuca=Nootka
+SAN DOMINGO,SAN DOMINGO,1,island,Hispaniola,,19.0,-71.0,approximate,geonames,Hispaniola,medium,"1,569 km from ship-track hints",Could be Santo Domingo city
+CAPE DELGADA,CAPE DELGADA,1,cape_or_strait,Cape Delgado,MZ,-10.6917,40.6389,approximate,geonames,Cape Delgado,medium,"1,080 km from ship-track hints",
+SANDEN CASTLE,SANDEN CASTLE,1,unclear,,,,,none,,,low,not found; type unclear,unknown castle
+SAN PEDRO,SAN PEDRO,1,unclear,San Pedro,,,,none,,"(weak gazetteer hit: San Salvador, SV)",low,not found; type unclear,ambiguous
+CAPE AGULLAS,CAPE AGULLAS,1,cape_or_strait,Cape Agulhas,ZA,-34.8315,20.0135,approximate,geonames,Cape Agulhas,medium,"1,206 km from ship-track hints",
+SCILLY,SCILLY,1,island,Isles of Scilly,GB,49.9491,-6.2626,approximate,geonames,Eastern Isles,medium,"2,141 km from ship-track hints","hint is near Azores; likely ship position, uncertain"
+SCHULPENGAT,SCHULPENGAT,1,unclear,Schulpengat,ZA,-33.0,17.9,approximate,claude,"(weak gazetteer hit: Schulpengat, NL)",low,"no confident gazetteer match, Claude's estimate; type unclear","Schulpengat is a channel near Saldanha/Table Bay area, uncertain"
+SCHRAVENDEELZE HOOFD,SCHRAVENDEELZE HOOFD,1,cape_or_strait,,,,,none,,,low,not found,Slave's Head? uncertain
+"SCHIEDAM, OVER DEN BEER",SCHIEDAM OVER DEN BEER,1,unclear,Schiedam,NL,51.9192,4.3889,approximate,geonames,Schiedam,medium,type unclear,"Dutch ship, likely Schiedam in Netherlands"
+"SCHIEDAM, ALMANSHAVETIE",SCHIEDAM ALMANSHAVETIE,1,unclear,Schiedam,NL,51.9192,4.3889,approximate,geonames,Schiedam,medium,type unclear,
+SCHAAPEN EILAND,SCHAAPEN EILAND,1,island,Schaapen Eiland,,,,none,,"(weak gazetteer hit: Sheep Island Conservation Park, AU)",low,not found,unclear which island
+CANAL DE BICK,CANAL DE BICK,1,unclear,,,,,none,,,low,not found; type unclear,
+CAMORASCA,CAMORASCA,1,unclear,,,,,none,,,low,not found; type unclear,
+SENOUR,SENOUR,1,unclear,,,,,none,,,low,not found; type unclear,Spanish; hint in Baltic unreliable
+SENAUX,SENAUX,1,unclear,,,,,none,,"(weak gazetteer hit: Senaux, FR)",low,not found; type unclear,unidentified; maybe Sénégal or Sena
+SMEERENBERG,SMEERENBERG,1,roadstead,Smeerenburg,NO,79.6813,11.1579,approximate,geonames,Smeerenburgfjorden,medium,country differs,Svalbard whaling station
+SINA RIVIER,SINA RIVIER,1,unclear,,,,,none,,"(weak gazetteer hit: Black River, CN)",low,not found; type unclear,unidentified
+"SOUTH HONINGS CREEK, HONINGS HARBOUR",SOUTH HONINGS CREEK HONINGS HARBOUR,1,roadstead,,,,,none,,,low,not found,"unidentified, 1769"
+SOLANO,SOLANO,1,unclear,,,,,none,,"(weak gazetteer hit: Vallejo, US)",low,not found; type unclear,maybe Solano wind; unclear
+CAMAVET,CAMAVET,1,unclear,,,,,none,,,low,not found; type unclear,unidentified
+CALLAO DE LIMA,CALLAO DE LIMA,1,port,Callao,PE,-12.0516,-77.1345,approximate,geonames,Callao,medium,"2,581 km from ship-track hints",
+CALCUTA.,CALCUTA,1,port,Kolkata,IN,22.5626,88.363,approximate,geonames,Kolkata,medium,"11,338 km from ship-track hints",
+SOCOTRA?,SOCOTRA,1,island,Socotra,YE,12.3333,53.85,approximate,geonames,Bidhōlih,medium,name marked uncertain,
+CABO REDONDO,CABO REDONDO,1,cape_or_strait,Cabo Redondo,PT,37.52,-8.8,approximate,claude,"(weak gazetteer hit: Moot Point, AQ)",medium,"no confident gazetteer match, Claude's estimate",uncertain
+BUSQUE,BUSQUE,1,unclear,Bay of Biscay area,,46.25,-1.3667,approximate,geonames,Pertuis Breton,medium,type unclear,uncertain
+"ST AUGUSTINE'S BAY, MADAGASCAR",ST AUGUSTINE'S BAY MADAGASCAR,1,roadstead,Saint Augustine Bay,MG,-23.55,43.7167,approximate,geonames,Helodrano Ianantsony,medium,"4,246 km from ship-track hints",
+BRAZILIAANSE KUST,BRAZILIAANSE KUST,1,coast_or_region,Brazilian coast,BR,-10.0,-55.0,area,geonames,Brazil,medium,"gazetteer and Claude 1,814 km apart",
+BRANDWAGT,BRANDWAGT,1,roadstead,Brandaris/Brandwacht roads,,,,none,,"(weak gazetteer hit: Brandwag, ZA)",low,not found,unclear
+BRANDWACHT,BRANDWACHT,1,unclear,,,,,none,,"(weak gazetteer hit: Brandwag, ZA)",low,not found; type unclear,unclear
+ST CHRISTOPHER,ST CHRISTOPHER,1,island,Saint Kitts,KN,17.34,-62.75,approximate,claude,"(weak gazetteer hit: Africa, ?)",medium,"no confident gazetteer match, Claude's estimate",
+ST CATHERINE'S PORT,ST CATHERINE'S PORT,1,port,Santa Catarina,,,,none,,"(weak gazetteer hit: Florianópolis, BR)",low,not found,uncertain
+BOTTEWA,BOTTEWA,1,unclear,,,,,none,,,low,not found; type unclear,Unidentified
+BORQUE,BORQUE,1,unclear,,,,,none,,,low,not found; type unclear,Unidentified
+ST GEORGE,ST GEORGE,1,unclear,,,,,none,,"(weak gazetteer hit: Saint George's, GD)",low,not found; type unclear,Ambiguous; maybe Grenada
+BRIZZLE HARBOUR,BRIZZLE HARBOUR,1,roadstead,Brizzle Harbour,,,,none,,"(weak gazetteer hit: Floating Harbour, GB)",low,not found,"Unidentified, possibly Faroe or Iceland"
+BRIZELL HARBOUR,BRIZELL HARBOUR,1,roadstead,Brizzle Harbour,,,,none,,"(weak gazetteer hit: Floating Harbour, GB)",low,not found,Unidentified
+ST JEAN,ST JEAN,1,unclear,,,,,none,,"(weak gazetteer hit: San Juan, PR)",low,not found; type unclear,Ambiguous
+ST HELLENS ROAD,ST HELLENS ROAD,1,roadstead,St Helens Roads,GB,53.45,-2.7333,approximate,geonames,St Helens,medium,gazetteer and Claude 324 km apart,Isle of Wight
+ST HELLENS,ST HELLENS,1,roadstead,St Helens Roads,GB,53.45,-2.7333,approximate,geonames,St Helens,medium,gazetteer and Claude 324 km apart,Isle of Wight
+ST HELLENA ROAD,ST HELLENA ROAD,1,roadstead,St Helens Roads,GB,53.45,-2.7333,approximate,geonames,St Helens,medium,gazetteer and Claude 324 km apart,"Likely St Helens, not St Helena"
+ST HELENS ROAD UK,ST HELENS ROAD UK,1,roadstead,St Helens Roads,GB,53.45,-2.7333,approximate,geonames,St Helens,medium,gazetteer and Claude 324 km apart,
+BRAGUES BAAI,BRAGUES BAAI,1,roadstead,Bragues Baai,,,,none,,,low,not found,Unidentified
+BRABANDS HOEDJE,BRABANDS HOEDJE,1,cape_or_strait,Brabants Hoedje,,,,none,,,low,not found,Unidentified
+BOUTRY,BOUTRY,1,unclear,Boeroe,,,,none,,"(weak gazetteer hit: Buru Regency, ID)",low,not found; type unclear,Uncertain
+BOMBAY VIA JOHANNA,BOMBAY VIA JOHANNA,1,port,Mumbai,IN,19.0728,72.8826,approximate,geonames,Mumbai,medium,"1,098 km from ship-track hints",Via Johanna (Anjouan)
+BOCA CHICA,BOCA CHICA,1,cape_or_strait,Boca Chica,CO,7.45,-77.3333,approximate,geonames,Quebrada de Bocachica,low,389 km from where ships anchored there; gazetteer and Claude 374 km apart,Entrance to Cartagena bay; hint position differs
+BLACKWALL UK,BLACKWALL UK,1,port,"Blackwall, London",GB,51.5097,-0.0016,approximate,geonames,Blackwall,medium,"6,119 km from ship-track hints",Thames; arrival hint at sea
+BIJ LAND,BIJ LAND,1,unclear,,,,,none,,,low,not found; type unclear,'Near land' - not a place
+"BIC ROAD, NF",BIC ROAD NF,1,roadstead,Bic Harbour,CA,48.3755,-68.6941,approximate,geonames,Le Bic,medium,"1,411 km from ship-track hints","Bic Road in St Lawrence, Quebec, not NF"
+BERTHOME,BERTHOME,1,unclear,,,,,none,,,low,not found; type unclear,Possibly a person name or Berthomé
+BERGEN/NOORWEGEN,BERGEN NOORWEGEN,1,port,Bergen,NO,60.393,5.3242,approximate,geonames,Bergen,medium,"2,031 km from ship-track hints",
+BENKULEU VIA ST HELENA,BENKULEU VIA ST HELENA,1,port,Bengkulu,ID,-3.8004,102.2655,approximate,geonames,Bengkulu,medium,"1,115 km from ship-track hints",Voyage via St Helena
+ST KITS,ST KITS,1,island,Saint Kitts,KN,17.34,-62.75,approximate,claude,"(weak gazetteer hit: Africa, ?)",medium,"no confident gazetteer match, Claude's estimate",
+"ST PATRICK'S HOLE, NEWFOUNDLAND",ST PATRICK'S HOLE NEWFOUNDLAND,1,roadstead,St. Pierre Harbour,CA,47.57,-52.7,approximate,claude,,medium,"no gazetteer match, Claude's estimate",Uncertain
+ST NICOLE,ST NICOLE,1,unclear,,,,,none,,,low,not found; type unclear,"Possibly Saint-Nicolas Mole, Haiti"
+ST TUDWALS,ST TUDWALS,1,roadstead,St Tudwal's Roads,GB,52.8,-4.48,approximate,claude,,medium,"no gazetteer match, Claude's estimate",Wales
+BECOVIA,BECOVIA,1,unclear,,,,,none,,,low,not found; type unclear,unidentified
+BECOUYA,BECOUYA,1,unclear,,,,,none,,,low,not found; type unclear,unidentified
+BEC,BEC,1,unclear,,,,,none,,,low,not found; type unclear,unidentified
+BATVIA,BATVIA,1,port,Jakarta,ID,-6.2146,106.8451,approximate,geonames,Jakarta,medium,"1,334 km from ship-track hints",Batavia misspelt; arrival hint off
+BATIMANS,BATIMANS,1,unclear,,,,,none,,,low,not found; type unclear,unidentified
+BATAVIA?,BATAVIA,1,port,Jakarta,ID,-6.2146,106.8451,approximate,geonames,Jakarta,medium,name marked uncertain,
+ST. FRAMOINE,ST FRAMOINE,1,unclear,,,,,none,,,low,not found; type unclear,unidentified; maybe St François
+"ST. AUGUSTINES, MADAGASCAR",ST AUGUSTINES MADAGASCAR,1,roadstead,Saint Augustine's Bay,MG,-23.35,43.6667,approximate,geonames,Toliara,medium,"1,064 km from ship-track hints",hint wrong
+ST.LOUIS DE MARIE GALANTE,ST LOUIS DE MARIE GALANTE,1,port,Saint-Louis,GP,15.96,-61.32,approximate,claude,"(weak gazetteer hit: Saint George's, GD)",medium,"no confident gazetteer match, Claude's estimate",
+ST. NICOLADE,ST NICOLADE,1,unclear,,,,,none,,,low,not found; type unclear,maybe Saint-Nicolas
+STE. PAISONT,STE PAISONT,1,unclear,,,,,none,,,low,not found; type unclear,unidentified
+BARENSON,BARENSON,1,unclear,,,,,none,,,low,not found; type unclear,Cannot identify
+START POINT UK,START POINT UK,1,cape_or_strait,Start Point,GB,50.2213,-3.6402,approximate,geonames,Start Point,medium,"3,026 km from ship-track hints","Devon, England"
+TAAGH,TAAGH,1,unclear,,,,,none,,"(weak gazetteer hit: Cerro Taagh, AR)",low,not found; type unclear,Cannot identify
+SYDNEY,SYDNEY,1,port,Sydney,AU,-33.8678,151.2073,approximate,geonames,Sydney,medium,"6,338 km from ship-track hints",Arrival hint is inconsistent
+BAIE DE CHIBOUCTOU-ROCHEFORT,BAIE DE CHIBOUCTOU ROCHEFORT,1,roadstead,Chibucto Bay (Halifax Harbour),CA,44.6724,-63.4751,approximate,geonames,Cole Harbour,medium,"13,996 km from ship-track hints",d'Anville expedition 1746; hint is wrong
+BAHAMAS,BAHAMAS,1,coast_or_region,Bahamas,BS,25.0408,-77.3712,area,geonames,Bahamas,medium,gazetteer and Claude 164 km apart,
+TAMARA EILAND,TAMARA EILAND,1,island,Tamara Island,ID,-5.0,106.0,approximate,claude,"(weak gazetteer hit: Tamara Island, GN)",medium,"no confident gazetteer match, Claude's estimate",uncertain; possibly in Java Sea
+BAAI ST ANNA,BAAI ST ANNA,1,roadstead,Santa Ana Bay,,,,none,,"(weak gazetteer hit: Baie de Sainte Anne, EH)",low,not found,ambiguous
+BAAI,BAAI,1,unclear,,,,,none,,,low,not found; type unclear,just 'bay'
+B. PANJANG,B PANJANG,1,unclear,,,,,none,,"(weak gazetteer hit: Bukit Panjang New Town, SG)",low,not found; type unclear,"B. Panjang = Baai Panjang, location unknown"
+AZIM,AZIM,1,unclear,,,,,none,,,low,not found; type unclear,
+TERVEUR,TERVEUR,1,unclear,Terveur,,,,none,,,low,not found; type unclear,Possibly a ship name (Le Terrible?) or Tervuren; unclear
+"TOBAGO, LA MARTINIQUE, ST. DOMINGUE",TOBAGO LA MARTINIQUE ST DOMINGUE,1,coast_or_region,"Tobago, Martinique, Saint-Domingue",,,,none,,"(weak gazetteer hit: Tobago, TT)",low,not found,Multiple West Indies places
+TIMOAN,TIMOAN,1,unclear,Timoan,MY,2.7972,104.166,approximate,geonames,Tioman Island,medium,type unclear,Likely Pulau Tioman
+TUSSEN CABO CANIE EN RIO SESTRE BIJ NEGERIJ TRITON,TUSSEN CABO CANIE EN RIO SESTRE BIJ NEGERIJ TRITON,1,coast_or_region,Between Cape Palmas area and Sestos River,LR,4.3689,-7.7289,area,geonames,Cape Palmas,medium,gazetteer and Claude 233 km apart,Liberian coast; Cabo Canie uncertain
+TUSSEN 2E EN 3E HOEK,TUSSEN 2E EN 3E HOEK,1,unclear,,,,,none,,,low,not found; type unclear,Unidentifiable 'between 2nd and 3rd point'
+TRINITÉ,TRINITE,1,unclear,La Trinité,MQ,14.7381,-60.9632,approximate,geonames,La Trinité,medium,type unclear,Likely Martinique; uncertain
+TOWN OF BRUNSWICK,TOWN OF BRUNSWICK,1,unclear,Braunschweig,DE,52.2659,10.5267,approximate,geonames,Braunschweig,medium,type unclear,Uncertain
+TUSSEN EILANDEN RIJN EN ORNAAL,TUSSEN EILANDEN RIJN EN ORNAAL,1,unclear,,,,,none,,,low,not found; type unclear,Islands Rijn and Ornaal unidentified
+APOLONIA,APOLONIA,1,cape_or_strait,Cape Apollonia,GH,4.95,-2.65,approximate,claude,"(weak gazetteer hit: Santa Apolonia, MX)",medium,"no confident gazetteer match, Claude's estimate",Hint longitude is unreliable; Apollonia is on the Gold Coast
+APAM,APAM,1,unclear,,,5.285,-0.746,approximate,geonames,Apam,medium,type unclear,"Possibly Apam, Gold Coast"
+"ANTICOSTA ISLAND, NF",ANTICOSTA ISLAND NF,1,island,Anticosti Island,CA,49.5001,-62.9986,approximate,geonames,Anticosti Island,medium,"1,514 km from ship-track hints",Hint position is wrong
+ANNABAE,ANNABAE,1,port,Annaba,DZ,36.9,7.7667,approximate,geonames,Annaba,medium,"4,264 km from where ships anchored there",Hint position is wrong
+AMÉRICA SEPTENTRIONAL(NOKA),AMERICA SEPTENTRIONAL(NOKA),1,coast_or_region,North America,,49.6,-126.6,area,claude,"(weak gazetteer hit: North America, ?)",medium,"no confident gazetteer match, Claude's estimate",Likely Nootka Sound
+AMÉRICA MERIDIONAL,AMERICA MERIDIONAL,1,coast_or_region,South America,,-14.6049,-57.6562,area,geonames,South America,medium,gazetteer and Claude 256 km apart,
+VALPARAISA (CHILE),VALPARAISA (CHILE),1,port,Valparaíso,CL,-33.036,-71.6296,approximate,geonames,Valparaíso,medium,"2,634 km from ship-track hints",
+UK(?),UK( ),1,country,United Kingdom,GB,54.7584,-2.6953,area,geonames,United Kingdom,medium,name marked uncertain,Uncertain
+TUSSEN VOORLAND EN MOKKEHOK,TUSSEN VOORLAND EN MOKKEHOK,1,cape_or_strait,Between Voorland and Mokkehok,,,,none,,,low,not found,Unidentified
+VLAK BIJ BRAMSPUNT,VLAK BIJ BRAMSPUNT,1,unclear,,,,,none,,,low,not found; type unclear,Unidentified
+VIEGIELANTSIE,VIEGIELANTSIE,1,unclear,,,,,none,,,low,not found; type unclear,Unidentified
+VICTORIA,VICTORIA,1,unclear,,,,,none,,"(weak gazetteer hit: Victoria, SC)",low,not found; type unclear,Ambiguous
+VANTGARDE,VANTGARDE,1,unclear,,,,,none,,,low,not found; type unclear,Probably ship name Avant-garde
+VANILLAC,VANILLAC,1,unclear,,,,,none,,,low,not found; type unclear,Unidentified
+VALTA,VALTA,1,unclear,,,,,none,,,low,not found; type unclear,Valta unidentifiable; possibly Malta or Valdivia
+ALMERIE,ALMERIE,1,unclear,,,,,none,,,low,not found; type unclear,Probably Almeria or fishing voyage
+ALICANTE?,ALICANTE,1,port,Alicante,ES,38.3452,-0.4815,approximate,geonames,Alicante,medium,name marked uncertain,
+ALIC.?,ALIC,1,unclear,,,,,none,,,low,not found; type unclear; name marked uncertain,Possibly Alicante
+WOOLWICH UK,WOOLWICH UK,1,port,Woolwich,GB,51.49,0.06,approximate,claude,"(weak gazetteer hit: Woolwich, US)",medium,"no confident gazetteer match, Claude's estimate",
+WOLF ISLAND,WOLF ISLAND,1,island,Wolf Island,,,,none,,"(weak gazetteer hit: Wenmen Island, EC)",low,not found,Ambiguous
+WILLEMSTAD,WILLEMSTAD,1,port,Willemstad,CW,12.1225,-68.8864,approximate,geonames,Willemstad,medium,"7,728 km from where ships anchored there",Uncertain; hint is in North Sea off Zeeland
+HOEK VAN DE SINGEL,HOEK VAN DE SINGEL,1,cape_or_strait,,,,,none,,,low,not found,Hoek van de Singel; unidentified
+"YORK HARBOUR, NEWFOUNDLAND",YORK HARBOUR NEWFOUNDLAND,1,roadstead,York Harbour,CA,49.0667,-58.3817,approximate,geonames,York Harbour,medium,"1,972 km from ship-track hints","Bay of Islands, Newfoundland; arrival hint wrong"

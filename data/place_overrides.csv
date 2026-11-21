@@ -1,0 +1,86 @@
+﻿place,applies_to,lat,lon,place_type,modern_name,country_code,precision,confidence,note
+GUINEA,group,5.0,-2.0,coast_or_region,Guinea coast (Gold Coast),,area,medium,Dutch Guinea trade; one shared point for all Guinea-coast spellings
+GUINEE,group,5.0,-2.0,coast_or_region,Guinea coast (Gold Coast),,area,medium,Same point as GUINEA
+GUINNEE,group,5.0,-2.0,coast_or_region,Guinea coast (Gold Coast),,area,medium,Same point as GUINEA
+KUST VAN GUINEA,group,5.0,-2.0,coast_or_region,Guinea coast (Gold Coast),,area,medium,Same point as GUINEA
+COASTAL GULF OF GUINEE,group,3.0,2.0,coast_or_region,Gulf of Guinea,,area,medium,Gulf of Guinea centroid
+WEST AFRIKA,group,8.0,-8.0,coast_or_region,West Africa,,area,medium,One shared point for all West Africa spellings
+WEST AFRICA,group,8.0,-8.0,coast_or_region,West Africa,,area,medium,Same point as WEST AFRIKA
+W AFRIKA,group,8.0,-8.0,coast_or_region,West Africa,,area,medium,"Same point as WEST AFRIKA; French log, positions near Senegal"
+AFRIKA,group,8.0,-8.0,coast_or_region,West Africa,,area,medium,Ship tracks show the West African coast
+KUST VAN AFRIKA,group,8.0,-8.0,coast_or_region,West Africa,,area,medium,Ship tracks show the West African coast
+COASTAL,group,,,not_a_place,,,,high,"Generic word, not a place"
+UNKNOWN,group,,,not_a_place,,,,high,Means unknown; not a place
+DESCONOCIDO,group,,,not_a_place,,,,high,Spanish for unknown; not a place
+BARQUES,group,,,not_a_place,,,,high,French for boats; not a place
+EN PUERTO,group,,,not_a_place,,,,high,Spanish for in port; not a place
+LA VANTGARDE,group,,,not_a_place,,,,high,Vanguard of a fleet; not a place
+LA VANT GARDE,group,,,not_a_place,,,,high,Vanguard of a fleet; not a place
+"DOMINIQUE, CADIX, MALAGUA ET RETOUR A BREST",group,,,itinerary,,,,high,Lists several stops
+YORK FACTORY,group,,,,,,,high,"Correct; logs end in Hudson Strait, far from the post"
+CHURCHILL,group,58.7963,-94.2134,port,Churchill (Prince of Wales Fort),CA,,high,"Fort at the river mouth, not the airport; logs end in Hudson Strait"
+HUDSON BAY CHURCHILL,group,58.7963,-94.2134,port,Churchill (Prince of Wales Fort),CA,,high,Same as CHURCHILL
+MOOSE,group,,,,,,,high,Moose Factory; logs end in Hudson Strait
+HUDSON BAY MOOSE,group,,,,,,,high,Moose Factory; logs end in Hudson Strait
+ST MARTIN,group,,,,,,,high,Correct; arrival positions agree
+CANTON,group,23.0956,113.4247,roadstead,"Whampoa (Huangpu), Guangzhou",CN,,high,"Western ships anchored at Whampoa, downriver from the city"
+SENEGAL,group,16.0326,-16.5089,port,"Saint-Louis, Senegal",SN,,medium,British Fort Lewis at the Senegal river mouth; matches arrival positions
+DOWNS,group,51.22,1.45,roadstead,The Downs,GB,,high,"Anchorage off Deal, Kent"
+DUINS,group,51.22,1.45,roadstead,The Downs,GB,,high,Dutch name for the Downs
+DOWNES,group,51.22,1.45,roadstead,The Downs,GB,,high,Spelling of the Downs
+DOWNS VIA ST HELENA,group,51.22,1.45,roadstead,The Downs,GB,,high,Destination is the Downs; St Helena is the route
+WEST INDIES,group,,,,,,,high,Region centroid
+ST KITTS,group,17.29,-62.72,roadstead,"Basseterre Roads, Saint Kitts",KN,,high,
+WOOLWICH,group,51.493,0.058,port,Woolwich Dockyard,GB,,high,Logs end in the western approaches
+CÁDIZ?,place,,,,,,,high,Spanish voyages ending near Cádiz; spelling doubt only
+TOULON,group,,,,,,,high,Correct; logs start and end near Gibraltar
+SCHAPENEILAND,group,-33.06,18.01,island,"Schaapen Island, Saldanha Bay",ZA,,medium,Havick sailed Porto Praya to Schapeneiland to Saldanha Baai (1796)
+ST HELENS,group,50.705,-1.07,roadstead,"St Helens Roads, Isle of Wight",GB,,high,
+OOST INDIE,group,,,,,,,high,Region centroid (Dutch East Indies)
+BAROES,group,,,port,"Barus, Sumatra",ID,,medium,Barus on the west coast of Sumatra
+EUROPA,group,50.0,10.0,coast_or_region,Europe,,area,medium,Region centroid
+GOEREE,group,51.83,3.85,roadstead,Goeree roads (Goereese Gat),NL,,medium,Dutch Maas-entrance anchorage; the two anchored positions off Morocco are not usable
+TERNAL,group,45.05,136.62,roadstead,"Baie de Ternay (Terney), Russia",RU,,medium,La Perouse 1787; logged longitudes run about 0.8 deg east
+LONG REACH,group,51.465,0.235,roadstead,"Long Reach, River Thames",GB,,high,
+FLAT POINT,group,,,cape_or_strait,"Flat Point, south Borneo",ID,approximate,medium,Between Banjar road and the Banjar river; position from ship tracks
+MIDDELLANDSE ZEE,group,35.0,18.0,coast_or_region,Mediterranean Sea,,area,high,Region centroid
+MEDITERRANEAN,group,35.0,18.0,coast_or_region,Mediterranean Sea,,area,high,Region centroid
+MEDITERANEE,group,35.0,18.0,coast_or_region,Mediterranean Sea,,area,high,Region centroid
+EILAND MIDDELBURG,group,-6.0,106.75,island,An island in the Bay of Batavia,ID,approximate,low,"Voyages to and from Batavia, so not Tonga; exact island not identified"
+NORTHFLEET,group,,,,,,,high,Thames; the logbook position is unusable
+SINGELS,group,,,unclear,,,,low,"Checked; not identified (Dutch homeward destination, probably Channel approaches)"
+DE VLIETER,group,53.15,4.98,roadstead,Vlieter anchorage,NL,,high,Channel between Texel and Vlieland
+DELAWARE,group,,,,,,,high,Delaware Bay
+PLAYA DE MIEL,group,20.35,-74.49,roadstead,"Playa de Miel, Baracoa",CU,,medium,On La Coruna to Havana voyages
+WEST SIDE OF CARLISE SOUND,group,-51.75,-59.5,coast_or_region,Falkland Islands,FK,area,low,Port Egmont station ships 1768-70; sound not identified
+PORT ADAIR,group,-51.75,-59.5,coast_or_region,Falkland Islands,FK,area,low,Same ships as Carlise Sound; harbour not identified
+COSTA PATAGÓNICA,group,,,,,,,high,Region centroid
+CABO BUENA ESPERANZA,group,,,,,,,high,
+DUNGENESS,group,,,,,,,high,
+BEACHY HEAD,group,,,,,,,high,
+ST JACOBSBAAI,group,11.22,-60.79,roadstead,"Great Courland Bay, Tobago",TT,,low,Probably Courland's Jacobus bay; voyage Suriname to St Jacobsbaai to St Eustatius
+NOORDBAAIJ,group,78.5,15.0,coast_or_region,Spitsbergen,SJ,area,low,Whalers to Spitsbergen; bay not identified
+KONINGSBAAIJ,group,78.95,11.95,roadstead,"Kongsfjorden (Kings Bay), Spitsbergen",SJ,,medium,Schiedam whalers to Spitsbergen
+ST LAWRENCE,group,,,port,"St. Lawrence, Newfoundland",CA,,medium,Agrees with arrival positions
+ESPAÑA (CÁDIZ?),place,,,,,,,high,Spain centroid; Cadiz possible
+ST VINCENT,group,13.155,-61.225,port,"Kingstown, Saint Vincent",VC,,medium,Voyages to Demerara and from St Vincent to Liverpool
+COASTAL CARIBEAN,group,,,,,,,high,Region centroid
+PUERTO DE MACAO,group,,,,,,,high,
+CHINA,group,,,,,,,high,Country centroid
+MALAGUA,group,36.7213,-4.4214,port,Málaga,ES,,medium,"Same ship's itinerary lists Cadix, Malagua"
+FORT DAUPHIN,group,,,,,,,high,Madagascar
+FORT WILLIAM,group,,,,,,,high,"Fort William, Calcutta"
+LE BAYE DU CROC,group,51.05,-55.8,roadstead,"Croc Harbour, Newfoundland",CA,,medium,French Shore fishing harbour
+SAN ANTONIO,group,55.2,-133.4,roadstead,"Bucareli Bay area, Alaska",US,approximate,low,"Aranzazu 1792, between Bucareli and Nootka; latitude from anchored positions"
+CARTAGENA?,place,10.42,-75.55,port,Cartagena de Indias,CO,,medium,"Voyage starts in the Caribbean, not Spain"
+CASSERIJEN,group,21.87,87.92,roadstead,"Kedgeree (Khejuri), Hooghly",IN,,medium,Departure positions at the Hooghly mouth
+ROUWEN EILAND,group,,,unclear,,,,low,Checked; near the Sunda Strait but island not identified
+CAPE NICHOLAS,group,,,,,,,high,"Mole Saint-Nicolas, Haiti"
+GRAVESEND UK,group,,,,,,,high,
+FOLTHA,group,,,unclear,,,,low,Checked; not identified
+LANCE,group,,,unclear,,,,low,Checked; not identified
+RICHARD,group,,,unclear,,,,low,Checked; not identified
+LA CARBONIERE,group,,,unclear,,,,low,Checked; not identified
+VERGEROU,group,,,unclear,,,,low,Checked; not identified
+PUNTA NAGA,group,,,unclear,,,,low,Checked; not identified
+CROIX,group,,,unclear,,,,low,Checked; not identified

@@ -1,0 +1,31 @@
+# Large or rebuildable data (GitHub rejects files over 100 MB)
+data/cliwoc_points.csv
+data/cliwoc_points_en.csv
+data/*.sqlite
+gis/
+
+# ArcGIS Pro project scratch files
+CLIWOC_ExplorerProject/GpMessages/
+CLIWOC_ExplorerProject/ImportLog/
+CLIWOC_ExplorerProject/Index/
+CLIWOC_ExplorerProject/.backups/
+CLIWOC_ExplorerProject/info/
+CLIWOC_ExplorerProject/*.gdb/
+*.lock
+
+# Web app
+app/node_modules/
+app/dist/
+
+# Secrets and local settings
+.env
+.env.*
+.claude/settings.local.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+__pycache__/
+
+# Third-party screenshots used for design reference only
+style-inspiration/
