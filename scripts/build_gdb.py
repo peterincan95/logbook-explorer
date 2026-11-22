@@ -15,10 +15,20 @@ Writes gis/cliwoc_explorer.gdb (replaced on every run) containing:
 - logbook_points: every logbook row from data/cliwoc_points_en.csv (original
   fields plus the _en translations), with origin_location_id,
   destination_location_id and anchor_location_id pointing at
-  locations.location_id, and obs_date built from YR, MO, DY and HR. Rows
-  without a position have an empty geometry.
+  locations.location_id, obs_date built from YR, MO, DY and HR, and the
+  track fields from build_tracks.py: track_id (one ship's voyage),
+  track_seq (order along it) and track_duplicate (0 = keep; 1+ = likely
+  copy of the same voyage from another source). Rows without a position
+  have an empty geometry. To draw voyages as lines: Points To Line with
+  Line Field = track_id, Sort Field = track_seq.
+- tracks: one row per track_id (ship, dates, route, row counts).
+- voyage_lines: one line per track, joining its positioned points in
+  track_seq order, with nationality, ship, company, origin and destination
+  location IDs and the track fields. Tracks are split where they cross the
+  180th meridian so no segment runs across the whole map (see
+  track_lines.py); such tracks are multipart lines.
 - Relationship classes linking each location to the logbook rows that start
-  at, end at, or anchor at it.
+  at, end at, or anchor at it, and each track to its logbook rows.
 """
 import argparse
 import datetime as dt
@@ -32,6 +42,8 @@ import arcpy
 import pandas as pd
 
 import build_locations
+import build_tracks
+from track_lines import MAX_SEGMENT_KM, track_lines
 
 ROOT = Path(__file__).resolve().parent.parent
 LOG_CSV = ROOT / "data" / "cliwoc_points_en.csv"
@@ -59,6 +71,18 @@ LOCATION_ALIASES = {
 LOCATION_NUMERIC = {"location_id": "LONG", "voyages": "LONG", "rows_from": "LONG", "rows_to": "LONG",
                     "rows_anchor": "LONG", "first_year": "LONG", "last_year": "LONG", "name_count": "LONG",
                     "lat": "DOUBLE", "lon": "DOUBLE"}
+
+TRACK_FIELDS = [("track_id", ("TEXT", 20), "Track ID (ship's voyage)"),
+                ("track_seq", ("LONG", None), "Order along track"),
+                ("track_duplicate", ("SHORT", None), "Likely duplicate track (0 = keep)")]
+TRACK_TABLE_ALIASES = {
+    "track_id": "Track ID", "ID": "Ship/logbook ID", "ship": "Ship name",
+    "voyage_ini": "Voyage start (VoyageIni)", "start_inferred": "Start date inferred (1 = yes)",
+    "first_date": "First observation", "last_date": "Last observation",
+    "voyage_from": "Origin as written", "voyage_to": "Destination as written",
+    "rows": "Logbook rows", "positioned": "Rows with a position",
+    "track_duplicate": "Likely duplicate track (0 = keep)",
+}
 
 
 def clean_place(s):
@@ -162,9 +186,9 @@ def point(lat, lon):
     return (lon, lat)
 
 
-def create_fc(name, fields, alias):
+def create_fc(name, fields, alias, geometry="POINT"):
     fc = str(GDB / name)
-    arcpy.management.CreateFeatureclass(str(GDB), name, "POINT", spatial_reference=WGS84, out_alias=alias)
+    arcpy.management.CreateFeatureclass(str(GDB), name, geometry, spatial_reference=WGS84, out_alias=alias)
     for fname, (ftype, length), falias in fields:
         arcpy.management.AddField(fc, fname, ftype, field_length=length, field_alias=falias)
     return fc
@@ -203,7 +227,7 @@ def build_logbook(location_ids):
         spec = field_spec(c, full[c], declared.get(c, "text"))
         fields.append((c, spec, logbook_alias(c, aliases)))
     link_fields = [(new, ("LONG", None), alias) for _, new, alias in PLACE_LINKS]
-    fields += link_fields + [("obs_date", ("DATE", None), "Observation date (YR, MO, DY, HR)")]
+    fields += link_fields + [("obs_date", ("DATE", None), "Observation date (YR, MO, DY, HR)")] + TRACK_FIELDS
     fc = create_fc("logbook_points", fields, "CLIWOC logbook points")
     types = {f[0]: f[1][0] for f in fields}
 
@@ -214,22 +238,137 @@ def build_logbook(location_ids):
     if any(unmatched.values()):
         raise SystemExit("Some logbook place names have no location; re-run the place steps")
 
+    track_rows, tracks = build_tracks.assign_tracks(full)
+    for c in track_rows.columns:
+        full[c] = track_rows[c]
+
     out_cols = cols + [new for _, new, _ in PLACE_LINKS]
+    track_cols = [f[0] for f in TRACK_FIELDS]
     idx = {c: i for i, c in enumerate(out_cols)}
     n = 0
-    with arcpy.da.InsertCursor(fc, ["SHAPE@XY"] + out_cols + ["obs_date"]) as cur:
+    with arcpy.da.InsertCursor(fc, ["SHAPE@XY"] + out_cols + ["obs_date"] + track_cols) as cur:
         for start in range(0, len(full), CHUNK):
-            part = full.iloc[start:start + CHUNK][out_cols]
-            for row in part.itertuples(index=False, name=None):
+            part = full.iloc[start:start + CHUNK]
+            for row, trk in zip(part[out_cols].itertuples(index=False, name=None),
+                                part[track_cols].itertuples(index=False, name=None)):
                 vals = [convert(v, types[c]) for c, v in zip(out_cols, row)]
                 d = obs_date(row[idx["YR"]], row[idx["MO"]], row[idx["DY"]], row[idx["HR"]])
-                cur.insertRow([point(row[idx["latitude"]], row[idx["longitude"]])] + vals + [d])
+                cur.insertRow([point(row[idx["latitude"]], row[idx["longitude"]])] + vals + [d]
+                              + [trk[0], int(trk[1]), int(trk[2])])
             n += len(part)
             print(f"  {n:,}/{len(full):,}", flush=True)
     for _, new, _ in PLACE_LINKS:
         arcpy.management.AddIndex(fc, new, f"idx_{new}")
+    arcpy.management.AddIndex(fc, "track_id", "idx_track_id")
+    build_track_table(tracks)
+    build_line_fc(full, tracks)
     with_pos = int(((full.latitude.str.strip() != "") & (full.longitude.str.strip() != "")).sum())
     print(f"logbook_points: {len(full):,} rows, {with_pos:,} with positions, {len(fields)} fields")
+
+
+def build_track_table(tracks):
+    table = str(GDB / "tracks")
+    arcpy.management.CreateTable(str(GDB), "tracks", out_alias="Logbook tracks (one per voyage)")
+    numeric = {"rows": "LONG", "positioned": "LONG", "track_duplicate": "SHORT", "start_inferred": "SHORT"}
+    df = tracks.copy()
+    df["start_inferred"] = df.start_inferred.astype(int)
+    df = df.astype(object).where(df.notna(), None)
+    for c in df.columns:
+        ftype = numeric.get(c, "TEXT")
+        length = max(int(df[c].astype(str).str.len().max()), 1) if ftype == "TEXT" else None
+        arcpy.management.AddField(table, c, ftype, field_length=length, field_alias=TRACK_TABLE_ALIASES[c])
+    with arcpy.da.InsertCursor(table, list(df.columns)) as cur:
+        for rec in df.itertuples(index=False, name=None):
+            cur.insertRow([None if v is None else (int(v) if c in numeric else str(v))
+                           for c, v in zip(df.columns, rec)])
+    arcpy.management.AddIndex(table, "track_id", "idx_track_id", "UNIQUE")
+    print(f"tracks: {len(df):,} tracks, {(df.track_duplicate > 0).sum():,} likely duplicates")
+
+
+# Attributes of each voyage line: (field, alias, type, length) and how it is
+# taken from the track's points (see track_lines.track_lines).
+LINE_FIELDS = [
+    ("track_id", "Track ID (ship's voyage)", "TEXT", 20, ("track_id", "first")),
+    ("ship", "Ship name", "TEXT", 100, ("ShipName", "mode")),
+    ("nationality", "Nationality", "TEXT", 30, ("Nationality", "mode")),
+    ("company", "Company", "TEXT", 30, ("Company", "mode")),
+    ("origin_location_id", "Origin location ID", "LONG", None, ("origin_location_id", "mode")),
+    ("destination_location_id", "Destination location ID", "LONG", None, ("destination_location_id", "mode")),
+    ("voyage_from", "Origin as written", "TEXT", 255, ("VoyageFrom", "mode")),
+    ("voyage_to", "Destination as written", "TEXT", 255, ("VoyageTo", "mode")),
+    ("first_date", "First observation", "DATE", None, ("date", "min")),
+    ("last_date", "Last observation", "DATE", None, ("date", "max")),
+    ("points", "Positioned points", "LONG", None, ("track_seq", "count")),
+    ("track_duplicate", "Likely duplicate track (0 = keep)", "SHORT", None, ("track_duplicate", "first")),
+]
+
+
+def build_line_fc(full, tracks):
+    """One polyline per track through its positioned points, split at the
+    180th meridian. Values that vary along a track (e.g. a company or
+    destination that changes mid-voyage) take the most common one."""
+    df = full.copy()
+    df["lat"] = pd.to_numeric(df.latitude, errors="coerce")
+    df["lon"] = pd.to_numeric(df.longitude, errors="coerce")
+    df = df[df.lat.notna() & df.lon.notna()]
+    df["date"] = pd.to_datetime(dict(year=pd.to_numeric(df.YR, errors="coerce"),
+                                     month=pd.to_numeric(df.MO, errors="coerce"),
+                                     day=pd.to_numeric(df.DY, errors="coerce")), errors="coerce")
+    for c in ("origin_location_id", "destination_location_id"):
+        df[c] = df[c].astype("Int64").astype(str).replace("<NA>", "")
+    fields = [(name, (ftype, length), alias) for name, alias, ftype, length, _ in LINE_FIELDS]
+    fc = create_fc("voyage_lines", fields, "Voyage lines (one per track)", geometry="POLYLINE")
+    names = [f[0] for f in LINE_FIELDS]
+    attrs = {f[0]: f[4] for f in LINE_FIELDS}
+    n = split = crossed = 0
+    with arcpy.da.InsertCursor(fc, ["SHAPE@"] + names) as cur:
+        for tid, parts, v in track_lines(df, attrs):
+            geom = arcpy.Polyline(arcpy.Array([arcpy.Array([arcpy.Point(x, y) for x, y in p]) for p in parts]),
+                                  WGS84)
+            row = []
+            for name, alias, ftype, length, _ in LINE_FIELDS:
+                x = v[name]
+                if x in ("", None):
+                    row.append(None)
+                elif ftype in ("LONG", "SHORT"):
+                    row.append(int(float(x)))
+                elif ftype == "DATE":
+                    row.append(x.to_pydatetime())
+                else:
+                    row.append(str(x)[:length])
+            cur.insertRow([geom] + row)
+            n += 1
+            split += len(parts) > 1
+            crossed += any(abs(x) == 180 for part in parts for x, _ in part)
+    arcpy.management.AddIndex(fc, "track_id", "idx_track_id", "UNIQUE")
+    print(f"voyage_lines: {n:,} lines ({len(tracks) - n:,} tracks have under two distinct positions), "
+          f"{split:,} multipart: split at gaps over {MAX_SEGMENT_KM:,} km or where they cross the 180th meridian "
+          f"({crossed:,} cross it)")
+
+
+def track_line_relationship():
+    arcpy.management.CreateRelationshipClass(
+        str(GDB / "tracks"), str(GDB / "voyage_lines"), str(GDB / "rel_track_line"), "SIMPLE",
+        "Voyage line", "Track", "NONE", "ONE_TO_ONE", "NONE", "track_id", "track_id")
+
+
+def rebuild_lines():
+    """Replace only voyage_lines in the existing geodatabase (works while Pro
+    has the geodatabase open, as long as voyage_lines itself isn't in a map)."""
+    arcpy.env.overwriteOutput = True
+    full = pd.read_csv(LOG_CSV, encoding="utf-8-sig", dtype=str, keep_default_na=False,
+                       usecols=list(dict.fromkeys(build_tracks.COLS + ["Nationality", "Company", "AnchorPlace"])))
+    xw = pd.read_csv(ROOT / "data" / "place_to_location.csv", encoding="utf-8-sig", keep_default_na=False)
+    ids = dict(zip(xw.place, xw.location_id.astype(int)))
+    for src, new, _ in PLACE_LINKS:
+        full[new] = clean_place(full[src]).map(ids)
+    track_rows, tracks = build_tracks.assign_tracks(full)
+    full = full.join(track_rows)
+    for name in ("rel_track_line", "voyage_lines"):
+        if arcpy.Exists(str(GDB / name)):
+            arcpy.management.Delete(str(GDB / name))
+    build_line_fc(full, tracks)
+    track_line_relationship()
 
 
 def build_relationships():
@@ -240,7 +379,11 @@ def build_relationships():
             locs, logs, str(GDB / f"rel_location_{label}"), "SIMPLE",
             f"Logbook points ({label})", f"{label.capitalize()} location", "NONE", "ONE_TO_MANY",
             "NONE", "location_id", key)
-    print("Relationship classes: origin, destination, anchor")
+    arcpy.management.CreateRelationshipClass(
+        str(GDB / "tracks"), logs, str(GDB / "rel_track_points"), "SIMPLE",
+        "Logbook points", "Track", "NONE", "ONE_TO_MANY", "NONE", "track_id", "track_id")
+    track_line_relationship()
+    print("Relationship classes: origin, destination, anchor, track points, track line")
 
 
 def apply_aliases():
@@ -263,8 +406,14 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--aliases-only", action="store_true",
                     help="only refresh field aliases on the existing geodatabase")
-    if ap.parse_args().aliases_only:
+    ap.add_argument("--lines-only", action="store_true",
+                    help="only rebuild voyage_lines in the existing geodatabase")
+    args = ap.parse_args()
+    if args.aliases_only:
         apply_aliases()
+        return
+    if args.lines_only:
+        rebuild_lines()
         return
     arcpy.env.overwriteOutput = True
     GDB.parent.mkdir(exist_ok=True)

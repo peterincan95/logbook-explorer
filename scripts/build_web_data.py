@@ -11,6 +11,14 @@ Writes:
   the fields the filters use plus ship name and date for the hover tooltip.
   point_id is the row number in cliwoc_points_en.csv (1-based), the same as OBJECTID in
   gis/cliwoc_explorer.gdb, so a point can be looked up in the full record.
+  track is the number of the point's voyage: voyages with a line are
+  numbered 1..n in lines.geojson order, then voyages too short for a line.
+  Points of a likely duplicate track get the number of the voyage it
+  duplicates, so each voyage is counted once.
+- lines.geojson: one voyage line per track (see build_tracks.py), through the
+  points above in track_seq order and split at the 180th meridian (see
+  track_lines.py). Feature n (1-based) is track n, which is also the object ID
+  the map's GeoJSONLayer gives it. Likely duplicate tracks are left out.
 - search.tsv: row number in points.csv (1-based, which is the object ID the
   map's CSVLayer gives each point) and the lowercased English text of that
   row's memo and weather fields, for keyword and free-text
@@ -22,6 +30,9 @@ import sys
 from pathlib import Path
 
 import pandas as pd
+
+import build_tracks
+from track_lines import track_lines
 
 ROOT = Path(__file__).resolve().parent.parent
 LOG_CSV = ROOT / "data" / "cliwoc_points_en.csv"
@@ -47,8 +58,17 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     cols = ["latitude", "longitude", "Nationality", "Company", "YR", "MO", "DY", "ShipName", "VoyageFrom", "VoyageTo"]
     log = pd.read_csv(LOG_CSV, encoding="utf-8-sig", dtype=str, keep_default_na=False,
-                      usecols=cols + SEARCH_FIELDS)
+                      usecols=list(dict.fromkeys(cols + build_tracks.COLS + SEARCH_FIELDS)))
     log["point_id"] = range(1, len(log) + 1)
+    tracks, summary = build_tracks.assign_tracks(log)
+    log = log.join(tracks)
+    # Each track's primary track: itself, or for a likely duplicate, the track
+    # with the same ship and start date that has track_duplicate 0
+    summary["start"] = summary.voyage_ini.where(summary.voyage_ini != "",
+                                                summary.first_date.str.replace("-", ""))
+    first = summary[summary.track_duplicate == 0].set_index(["ship", "start"]).track_id
+    primary = {t: (t if d == 0 else first.get((sh, st), t))
+               for t, d, sh, st in zip(summary.track_id, summary.track_duplicate, summary.ship, summary.start)}
     ids = pd.read_csv(CROSSWALK_CSV, encoding="utf-8-sig", keep_default_na=False)
     ids = dict(zip(ids.place, ids.location_id.astype(int)))
     log["origin"] = clean_place(log.VoyageFrom).map(ids).astype("Int64")
@@ -70,7 +90,22 @@ def main():
     pts["date"] = ymd.dt.strftime("%Y-%m-%d").fillna("")
     pts = pts[pts.year >= MIN_YEAR]
     pts = pts.reset_index(drop=True)
-    pts[["point_id", "lon", "lat", "nat", "company", "origin", "dest", "year", "ship", "date"]].to_csv(
+
+    # Voyage lines (primary tracks only), numbered 1..n in track_id order
+    features, number = [], {}
+    keep = pts[pts.track_duplicate == 0]
+    for tid, parts, v in track_lines(keep, {"nat": ("nat", "mode")}):
+        number[tid] = len(features) + 1
+        features.append({"type": "Feature", "properties": {"track": tid, "nat": v["nat"]},
+                         "geometry": {"type": "MultiLineString",
+                                      "coordinates": [[[round(x, 3), round(y, 3)] for x, y in p] for p in parts]}})
+    (OUT / "lines.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": features},
+                                                  separators=(",", ":")), encoding="utf-8")
+    for tid in sorted(set(pts.track_id.map(primary)) - set(number)):   # voyages without a line
+        number[tid] = len(number) + 1
+    pts["track"] = pts.track_id.map(primary).map(number).astype("Int64")
+
+    pts[["point_id", "lon", "lat", "nat", "company", "origin", "dest", "year", "ship", "date", "track"]].to_csv(
         OUT / "points.csv", index=False, encoding="utf-8")
 
     text = pts[SEARCH_FIELDS].apply(lambda r: " | ".join(x.strip() for x in r if x.strip()), axis=1)
@@ -96,9 +131,9 @@ def main():
     (OUT / "locations.json").write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")),
                                         encoding="utf-8")
 
-    for name in ["points.csv", "search.tsv", "locations.json"]:
+    for name in ["points.csv", "lines.geojson", "search.tsv", "locations.json"]:
         print(f"{name}: {(OUT / name).stat().st_size / 1e6:.1f} MB")
-    print(f"{len(pts):,} points, {(text != '').sum():,} with text, {len(out):,} locations")
+    print(f"{len(pts):,} points, {len(features):,} lines, {(text != '').sum():,} with text, {len(out):,} locations")
 
 
 if __name__ == "__main__":

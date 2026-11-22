@@ -24,8 +24,8 @@ export const strings = {
   keywordSearchingText: "Lorem ipsum…",           // TODO: replace (shown while search text loads)
   noMatches: "Lorem ipsum",                        // TODO: replace (combobox has no matches)
 
-  // "{shown} of {total}" summary under the panel title
-  count: (shown, total) => `${shown} / ${total}`,  // TODO: replace
+  // Summary under the panel title: log entries and voyages matching the filters
+  count: (entries, voyages) => `${entries} log entries | ${voyages} Voyages`,
   clearAll: "Lorem",                               // TODO: replace
 
   // Point tooltip: ship name over the date, formatted with these Intl options

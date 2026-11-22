@@ -19,9 +19,13 @@ import "@arcgis/map-components/components/arcgis-zoom";
 import "@arcgis/map-components/components/arcgis-home";
 
 import Basemap from "@arcgis/core/Basemap.js";
+import PortalItem from "@arcgis/core/portal/PortalItem.js";
+import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer.js";
 import CSVLayer from "@arcgis/core/layers/CSVLayer.js";
+import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer.js";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
 import Graphic from "@arcgis/core/Graphic.js";
+import Color from "@arcgis/core/Color.js";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter.js";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils.js";
 
@@ -34,6 +38,18 @@ import { loadSearchIndex, compileWords, compileQuery, matchIds } from "./search.
 import { buildPanel } from "./panel.js";
 
 const dataUrl = (path) => `${import.meta.env.BASE_URL}${path}`;
+// Map scale at a standard ArcGIS / Web Mercator zoom level. All zoom levels in
+// config/map.js use these, whatever tiling the basemap uses (a basemap with
+// 512 px tiles numbers its levels one lower, so view.zoom isn't used).
+const scaleAtZoom = (zoom) => 591657527.591555 / 2 ** zoom;
+// True when the view is at or closer than a zoom level (small margin for rounding)
+const zoomedTo = (view, zoom) => view.scale <= scaleAtZoom(zoom) * 1.001;
+// A colour (hex or name) with the given opacity (0-1)
+const withAlpha = (color, opacity) => {
+  const c = new Color(color);
+  c.a = opacity;
+  return c;
+};
 
 function parseKeywords(csv) {
   return csv
@@ -47,16 +63,17 @@ function parseKeywords(csv) {
 }
 
 function pointsLayer() {
+  // Opacity is set on each point's colour, not the layer, so overlapping
+  // points build up and look more solid.
   const marker = (color) => ({
-    type: "simple-marker", size: mapConfig.pointSize, color, outline: null,
+    type: "simple-marker", size: mapConfig.pointSize, color: withAlpha(color, mapConfig.pointOpacity), outline: null,
   });
   return new CSVLayer({
     url: dataUrl(dataFiles.points),
     title: strings.pageTitle,
     latitudeField: "lat",
     longitudeField: "lon",
-    outFields: ["nat", "company", "origin", "dest", "year", "ship", "date"],
-    opacity: mapConfig.pointOpacity,
+    outFields: ["nat", "company", "origin", "dest", "year", "ship", "date", "track"],
     popupEnabled: false,
     renderer: {
       type: "unique-value",
@@ -68,11 +85,53 @@ function pointsLayer() {
         type: "size",
         valueExpression: "$view.scale",
         stops: mapConfig.pointSizeByZoom
-          .map(([zoom, size]) => ({ value: 591657527.591555 / 2 ** zoom, size }))
+          .map(([zoom, size]) => ({ value: scaleAtZoom(zoom), size }))
           .sort((a, b) => a.value - b.value),
       }],
     },
   });
+}
+
+// Voyage lines (lines.geojson): feature n is track n, and points carry the
+// track number, so the lines to show are the tracks of the points showing.
+function linesLayer() {
+  // Opacity is set on each line's colour, not the layer, so where lines
+  // overlap they build up and look more solid.
+  const line = (color) => ({ type: "simple-line", width: mapConfig.lineWidth, color: withAlpha(color, mapConfig.lineOpacity) });
+  return new GeoJSONLayer({
+    url: dataUrl(dataFiles.lines),
+    title: "voyages",
+    outFields: ["nat"],
+    popupEnabled: false,
+    renderer: {
+      type: "unique-value",
+      field: "nat",
+      defaultSymbol: line(mapConfig.otherPointColor),
+      uniqueValueInfos: nationalities.map((n) => ({ value: n.value, label: n.label, symbol: line(n.color) })),
+    },
+  });
+}
+
+// Track numbers of the points matching the filter
+async function visibleTracks(layer, where, objectIds) {
+  const { features } = await layer.queryFeatures({
+    where: `(${where}) AND track IS NOT NULL`,
+    objectIds,
+    groupByFieldsForStatistics: ["track"],
+    outStatistics: [{ statisticType: "count", onStatisticField: "track", outStatisticFieldName: "n" }],
+  });
+  return features.map((f) => Number(f.attributes.track));
+}
+
+// The basemap item can be a vector tile style (e.g. one made in the Vector
+// Tile Style Editor) or a web map used as a basemap.
+async function loadBasemap(id) {
+  const item = new PortalItem({ id });
+  await item.load();
+  if (item.type === "Vector Tile Service") {
+    return new Basemap({ baseLayers: [new VectorTileLayer({ portalItem: item })], title: item.title });
+  }
+  return new Basemap({ portalItem: item });
 }
 
 async function yearHistogram(layer) {
@@ -110,7 +169,7 @@ function setUpTooltip(view, layer) {
   };
   view.on("pointer-move", async (event) => {
     const move = ++latestMove;
-    if (view.zoom < mapConfig.tooltipMinZoom || event.pointerType === "touch") return hide();
+    if (!zoomedTo(view, mapConfig.tooltipMinZoom) || event.pointerType === "touch") return hide();
     const { results } = await view.hitTest(event, { include: [layer] });
     if (move !== latestMove) return;
     const hit = results.find((r) => r.type === "graphic");
@@ -129,20 +188,23 @@ function setUpTooltip(view, layer) {
     latestMove++;
     hide();
   });
-  reactiveUtils.watch(() => view.zoom, (zoom) => { if (zoom < mapConfig.tooltipMinZoom) hide(); });
+  reactiveUtils.watch(() => view.scale, () => { if (!zoomedTo(view, mapConfig.tooltipMinZoom)) hide(); });
 }
 
 async function main() {
   document.title = strings.pageTitle;
   const mapEl = document.querySelector("arcgis-map");
-  mapEl.basemap = new Basemap({ portalItem: { id: mapConfig.basemapItemId } });
+  mapEl.basemap = await loadBasemap(mapConfig.basemapItemId);
   mapEl.center = mapConfig.center;
-  mapEl.zoom = mapConfig.zoom;
+  mapEl.scale = scaleAtZoom(mapConfig.zoom);
   await mapEl.viewOnReady();
 
   const layer = pointsLayer();
+  const lines = mapConfig.showLines ? linesLayer() : null;
   const markers = new GraphicsLayer({ title: "locations" });
-  mapEl.map.addMany([layer, markers]);
+  mapEl.map.addMany([lines, layer, markers].filter(Boolean));
+  // Lines load on their own so the points aren't held up
+  const lineViewReady = lines ? mapEl.whenLayerView(lines).catch((err) => console.error(err)) : null;
 
   const [layerView, locations, years] = await Promise.all([
     mapEl.whenLayerView(layer),
@@ -150,6 +212,14 @@ async function main() {
     layer.load().then(() => yearHistogram(layer)),
   ]);
   const total = await layer.queryFeatureCount();
+
+  // Points show from mapConfig.pointsMinZoom in, or at any zoom while a
+  // keyword/search filter is on (minScale 0 = no limit). The small margin keeps
+  // them on at exactly that zoom level.
+  const showPoints = (always) => {
+    layer.minScale = always ? 0 : scaleAtZoom(mapConfig.pointsMinZoom) * 1.001;
+  };
+  showPoints(false);
   const byId = new Map(locations.map((l) => [l.id, l]));
   const keywords = parseKeywords(keywordsCsv);
   const keywordPatterns = new Map(keywords.map((k) => [k.label, compileWords(k.words)]));
@@ -188,6 +258,7 @@ async function main() {
   async function apply() {
     const mine = ++run;
     const where = buildWhere(state);
+    showPoints(keywordActive(state));
     let objectIds = null;
     if (keywordActive(state)) {
       objectIds = await keywordIds();
@@ -199,15 +270,29 @@ async function main() {
       : new FeatureFilter({ where, objectIds });
     layerView.filter = filter;
     showLocations();
-    const shown = objectIds?.length === 0 ? 0 : await layer.queryFeatureCount({ where, objectIds });
-    if (mine === run) panel.setCount(shown, total);
+    const none = objectIds?.length === 0;
+    const [shown, tracks] = none ? [0, []] : await Promise.all([
+      layer.queryFeatureCount({ where, objectIds }),
+      visibleTracks(layer, where, objectIds),
+    ]);
+    if (mine !== run) return;
+    panel.setCount(shown, tracks.length);
+    if (lines) filterLines(mine, where === "1=1" && !objectIds ? null : tracks);
+  }
+
+  // tracks: voyage numbers to draw (= line object IDs), or null for all
+  async function filterLines(mine, tracks) {
+    const lineView = await lineViewReady;
+    if (!lineView || mine !== run) return;
+    lineView.filter = !tracks ? null
+      : tracks.length ? new FeatureFilter({ objectIds: tracks }) : new FeatureFilter({ where: "1=0" });
   }
 
   const panel = buildPanel(document.querySelector("#panel"), {
     state, onChange: apply, locations, keywords, years,
     onKeywordOpen: () => loadSearchIndex(dataUrl(dataFiles.search)).catch(() => {}),
   });
-  panel.setCount(total, total);
+  panel.setCount(total, (await visibleTracks(layer, "1=1", null)).length);
   setUpTooltip(mapEl.view, layer);
   document.body.classList.remove("loading");
 }

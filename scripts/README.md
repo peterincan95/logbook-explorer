@@ -103,9 +103,33 @@ Needs ArcGIS Pro's Python (arcpy). Rebuilds `gis/cliwoc_explorer.gdb` from the C
 - `locations`: one point per location; `location_id` is the key. Built from `data/locations.csv` (see below). Locations without coordinates keep an empty geometry.
 - `logbook_points`: every row of `cliwoc_points_en.csv`, plus `origin_location_id`, `destination_location_id`, `anchor_location_id` (join to `locations.location_id`) and `obs_date` (from YR, MO, DY, HR). Rows without a position keep an empty geometry.
 - Field aliases on `logbook_points` come from the data dictionary (first clause of each description; `_en` fields get "(English)"). To refresh only the aliases on an existing geodatabase, add `--aliases-only`.
-- Relationship classes `rel_location_origin`, `rel_location_destination`, `rel_location_anchor`.
+- Track fields on `logbook_points` (from `build_tracks.py`, see below): `track_id`, `track_seq`, `track_duplicate`.
+- `tracks`: one row per `track_id` (ship, first/last date, route, row counts, duplicate flag).
+- `voyage_lines`: one multipart line per track, split at gaps and at the 180th meridian (see Voyage lines below).
+- Relationship classes `rel_location_origin`, `rel_location_destination`, `rel_location_anchor`, `rel_track_points`, `rel_track_line`.
 
 Re-run it after changing translations or place overrides.
+
+## Tracks (joining points into voyage lines)
+
+`build_tracks.py` gives every logbook row a track, meaning one ship's voyage as recorded in one logbook source. `build_gdb.py` calls it. Run it on its own (`python scripts/build_tracks.py`) to write only `data/tracks.csv` for checking.
+
+- `track_id`:
+  - Rows with a voyage start date: `ID-VoyageIni`, e.g. `45-18490807`.
+  - The ~5,000 rows without one: grouped by ID and route, split at gaps of more than 30 days, and named after their first date with an `i` (inferred) on the end, e.g. `512-17790304i`.
+- `track_seq`: order along the track, by date, then HR, then file order. The file isn't always in time order.
+- `track_duplicate`: 0 means keep. 1 or more means the same ship and start date appears under another ID with more positions (the same voyage keyed from an original logbook and from extracts). KNMI's list of these duplicates is no longer online, so they are inferred.
+
+### Voyage lines
+
+`voyage_lines` in the geodatabase and `app/public/data/lines.geojson` for the web map have one line per track, through its positioned points in `track_seq` order. Both are built with `track_lines.py`. A track is split into parts, giving a multipart line:
+
+- **At gaps:** where two consecutive points are more than `MAX_SEGMENT_KM` (1,000 km) apart, nothing is drawn between them. A day's sailing is under 450 km 99% of the time, so longer steps are missing days or mistyped positions, and a straight line across them would cut over land. This splits about 200 tracks. A point left on its own between two gaps isn't part of the line.
+- **At the 180th meridian:** the line runs to ±180 at the latitude where it crosses and carries on from the other side, so nothing is drawn across the whole map. 20 tracks cross it.
+
+Line attributes are `track_id`, ship, nationality, company, origin and destination location IDs, origin and destination as written, first and last date, point count and `track_duplicate`. For values that change along a voyage, the most common one is used. Lines link to `tracks` through `rel_track_line`. The web export leaves out duplicate tracks and points before 1740.
+
+To rebuild only `voyage_lines`, for example while Pro has the geodatabase open, add `--lines-only`. A full rebuild needs Pro to let go of the geodatabase first.
 
 ## Web app data
 

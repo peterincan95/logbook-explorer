@@ -188,7 +188,7 @@ export function buildPanel(root, { state, onChange, locations, keywords, years, 
   });
 
   return {
-    setCount(shown, total) { count.textContent = strings.count(shown.toLocaleString(), total.toLocaleString()); },
+    setCount(entries, voyages) { count.textContent = strings.count(entries.toLocaleString(), voyages.toLocaleString()); },
     setSearching(on) { search.loading = on; },
   };
 }
