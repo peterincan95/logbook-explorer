@@ -21,6 +21,12 @@ export const mapConfig = {
   pointOpacity: 0.7,     // opacity of each point (0-1); overlapping points add up
   tooltipMinZoom: 7,     // hover tooltips on points start at this zoom level
 
+  // Light ring drawn around a hovered log entry or location
+  hoverRingColor: "#fff8e6",
+  hoverRingWidth: 2,       // px
+  hoverRingGap: 3,         // px between the symbol and the ring
+  locationSymbolSize: 5.3, // px; the web map's location symbol (4 pt)
+
   // Voyage lines join each ship's points (coloured by nationality, under the
   // points) and show at every zoom level. Only voyages with at least one point
   // matching the filters are drawn.

@@ -68,10 +68,11 @@ function companyName(code, nat) {
  * - itemId: hosted logbook layer item
  * - locations: Map of location id -> {name, ...}
  * - onShowVoyage(track): the Show Voyage button was pressed
+ * - onShowPlaceVoyages(locationId): a location's Show Voyages button was pressed
  * - getHighlights(): active keyword/search patterns (RegExp list); their
  *   matches are highlighted in the searched text (weather, sea, memos)
  */
-export function createPopup(view, { itemId, locations, onShowVoyage, getHighlights = () => [] }) {
+export function createPopup(view, { itemId, locations, onShowVoyage, onShowPlaceVoyages, getHighlights = () => [] }) {
   const dateFormat = new Intl.DateTimeFormat(strings.dateLocale, { ...strings.dateFormat, timeZone: "UTC" });
   let layerUrl = null;
   const serviceUrl = async () => {
@@ -222,5 +223,22 @@ export function createPopup(view, { itemId, locations, onShowVoyage, getHighligh
     card.focus({ preventScroll: true });
   }
 
-  return { open, close, get isOpen() { return !card.hidden; } };
+  /** A location from the web map's location layers: name, modern name and a Show Voyages button. */
+  function openLocation(mapPoint, attrs) {
+    request++;
+    anchor = mapPoint;
+    const name = titleCase(attrs.common_name);
+    const modern = text(attrs.modern_name);
+    const button = el("button", { type: "button", class: "popup-voyage" }, strings.popup.showPlaceVoyages);
+    button.addEventListener("click", () => onShowPlaceVoyages(attrs.location_id));
+    card.replaceChildren(
+      header(name, modern && modern.toUpperCase() !== name.toUpperCase() ? modern : "", null),
+      el("div", { class: "popup-body" }, el("div", { class: "popup-actions" }, button)));
+    card.setAttribute("aria-label", name);
+    card.hidden = false;
+    place();
+    card.focus({ preventScroll: true });
+  }
+
+  return { open, openLocation, close, get isOpen() { return !card.hidden; } };
 }

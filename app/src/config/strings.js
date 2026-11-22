@@ -5,6 +5,9 @@ const LOREM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
 
 export const strings = {
   pageTitle: "Logbook Explorer",
+  // Title over the panel, top left
+  appTitle: "Logbook Explorer",
+  appSubtitle: "1745–1855",
   panelTitle: "Explore",
   loading: "Lorem ipsum…",                         // TODO: replace
 
@@ -29,6 +32,9 @@ export const strings = {
   count: (entries, voyages) =>
     `${entries.toLocaleString()} ${entries === 1 ? "log entry" : "log entries"} | `
     + `${voyages.toLocaleString()} ${voyages === 1 ? "Voyage" : "Voyages"}`,
+  // Data credit under the summary counts (creditUrl: optional link)
+  credit: "Data: CLIWOC 2.1, Climatological Database for the World's Oceans (KNMI)",
+  creditUrl: null,
   clearAll: "Lorem",                               // TODO: replace
 
   // Point tooltip: ship name over the date, formatted with these Intl options
@@ -47,6 +53,7 @@ export const strings = {
     wind: "Wind:",                                 // label before wind direction and force
     sea: "Sea:",                                   // label before state of the sea
     showVoyage: "Show Voyage",
+    showPlaceVoyages: "Show Voyages",              // location popup: voyages from or to the place
   },
   // Shown in the panel header while one voyage is shown
   voyageBack: "Back to map",                       // button back to the filtered map

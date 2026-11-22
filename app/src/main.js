@@ -1,5 +1,5 @@
-import "@fontsource/cinzel/600.css";
-import "@fontsource/cinzel/700.css";
+import "@fontsource/playfair-display/600.css";
+import "@fontsource/playfair-display/700.css";
 import "@fontsource/alegreya-sans/400.css";
 import "@fontsource/alegreya-sans/500.css";
 import "@fontsource/alegreya-sans/700.css";
@@ -139,6 +139,59 @@ async function yearHistogram(layer) {
 // points layer, and results from older moves are ignored. Only active from
 // mapConfig.tooltipMinZoom in, or at any zoom while anyZoom() is true (a
 // keyword filter or a single voyage is shown), and not for touch (no hover).
+// Point size (px) at a view scale, following mapConfig.pointSizeByZoom
+function pointSizeAt(scale) {
+  const zoom = Math.log2(scaleAtZoom(0) / scale);
+  const stops = mapConfig.pointSizeByZoom;
+  if (zoom <= stops[0][0]) return stops[0][1];
+  for (let i = 1; i < stops.length; i++) {
+    const [z0, s0] = stops[i - 1], [z1, s1] = stops[i];
+    if (zoom <= z1) return s0 + ((zoom - z0) / (z1 - z0)) * (s1 - s0);
+  }
+  return stops[stops.length - 1][1];
+}
+
+// A light ring around the log entry or location under the cursor (and the
+// pointer cursor), for anything that can be clicked. layers(): the layers to
+// test right now; sizeOf(hit): the hovered symbol's size in px.
+function setUpHoverRing(view, ringLayer, layers, sizeOf) {
+  let latestMove = 0;
+  let current = null;
+  const clear = () => {
+    current = null;
+    ringLayer.removeAll();
+    view.container.style.cursor = "";
+  };
+  view.on("pointer-move", async (event) => {
+    const move = ++latestMove;
+    const include = layers();
+    if (!include.length || event.pointerType === "touch") return clear();
+    const { results } = await view.hitTest(event, { include });
+    if (move !== latestMove) return;
+    const hit = results.find((r) => r.type === "graphic");
+    if (!hit) return clear();
+    const key = `${hit.layer.uid}:${hit.graphic.getObjectId?.() ?? hit.graphic.uid}`;
+    view.container.style.cursor = "pointer";
+    if (key === current) return;
+    current = key;
+    const size = sizeOf(hit) + mapConfig.hoverRingGap * 2;
+    ringLayer.removeAll();
+    ringLayer.addMany([
+      // thin dark edge so the light ring shows on the pale basemap
+      new Graphic({ geometry: hit.graphic.geometry, symbol: {
+        type: "simple-marker", style: "circle", size: size + mapConfig.hoverRingWidth,
+        color: [0, 0, 0, 0], outline: { color: [0, 0, 0, 0.45], width: mapConfig.hoverRingWidth + 1.5 },
+      } }),
+      new Graphic({ geometry: hit.graphic.geometry, symbol: {
+        type: "simple-marker", style: "circle", size: size + mapConfig.hoverRingWidth,
+        color: [0, 0, 0, 0], outline: { color: mapConfig.hoverRingColor, width: mapConfig.hoverRingWidth },
+      } }),
+    ]);
+  });
+  view.on("pointer-leave", () => { latestMove++; clear(); });
+  reactiveUtils.watch(() => view.scale, clear);
+}
+
 function setUpTooltip(view, layer, anyZoom = () => false) {
   const active = () => anyZoom() || zoomedTo(view, mapConfig.tooltipMinZoom);
   const anchor = document.getElementById("tooltip-anchor");
@@ -155,10 +208,7 @@ function setUpTooltip(view, layer, anyZoom = () => false) {
   };
 
   let latestMove = 0;
-  const hide = () => {
-    tooltip.open = false;
-    view.container.style.cursor = "";
-  };
+  const hide = () => { tooltip.open = false; };
   view.on("pointer-move", async (event) => {
     const move = ++latestMove;
     if (!active() || event.pointerType === "touch") return hide();
@@ -172,7 +222,6 @@ function setUpTooltip(view, layer, anyZoom = () => false) {
     const rect = view.container.getBoundingClientRect();
     anchor.style.left = `${rect.left + event.x}px`;
     anchor.style.top = `${rect.top + event.y}px`;
-    view.container.style.cursor = "pointer";
     tooltip.open = true;
     tooltip.reposition();
   });
@@ -185,6 +234,8 @@ function setUpTooltip(view, layer, anyZoom = () => false) {
 
 async function main() {
   document.title = strings.pageTitle;
+  document.getElementById("app-title").textContent = strings.appTitle;
+  document.getElementById("app-subtitle").textContent = strings.appSubtitle;
   const mapEl = document.querySelector("arcgis-map");
   // The whole web map (basemap plus its own layers, e.g. place names and
   // coastal hatching); the logbook layers are added on top of it. Its saved
@@ -203,9 +254,12 @@ async function main() {
   const lines = mapConfig.showLines ? linesLayer() : null;
   const markers = new GraphicsLayer({ title: "locations" });
   mapEl.map.addMany([lines, layer, markers].filter(Boolean));
-  // The web map's place-name layers go above the logbook data so labels stay readable
-  for (const l of mapEl.map.layers.filter((l) => /^locations \(/i.test(l.title)).toArray()) {
+  // The web map's location layers go above the logbook data so labels stay
+  // readable; clicking a location opens its popup (Show Voyages)
+  const placeLayers = mapEl.map.layers.filter((l) => /^locations \(/i.test(l.title)).toArray();
+  for (const l of placeLayers) {
     mapEl.map.reorder(l, mapEl.map.layers.length - 1);
+    l.outFields = ["location_id", "common_name", "modern_name"];
   }
   // Lines load on their own so the points aren't held up
   const lineViewReady = lines ? mapEl.whenLayerView(lines).catch((err) => console.error(err)) : null;
@@ -230,7 +284,11 @@ async function main() {
 
   const state = createState();
   let run = 0;
+  // Overlays on top of the panel filters (which stay set and come back with the
+  // panel's back button): one voyage (popup "Show Voyage"), or every voyage
+  // from or to one location (location popup "Show Voyages").
   let voyage = null;   // track number while "Show Voyage" is on, else null
+  let place = null;    // location_id while "Show Voyages" is on, else null
 
   async function keywordIds() {
     const patterns = [...state.keywords].map((k) => keywordPatterns.get(k));
@@ -285,7 +343,38 @@ async function main() {
     if (lines) filterLines(mine, [voyage]);
   }
 
+  async function applyPlace(mine) {
+    const where = `origin = ${place} OR dest = ${place}`;
+    setLineStyle("all");
+    showPoints(false);
+    layerView.filter = new FeatureFilter({ where });
+    markers.removeAll();
+    const loc = byId.get(place);
+    if (loc?.lat != null) {
+      markers.add(new Graphic({
+        geometry: { type: "point", longitude: loc.lon, latitude: loc.lat },
+        symbol: {
+          type: "simple-marker", style: "circle", size: 14,
+          color: [255, 255, 255, 0.85], outline: { color: mapConfig.locationMarkerColor, width: 2.5 },
+        },
+      }));
+    }
+    const [shown, tracks] = await Promise.all([layer.queryFeatureCount({ where }), visibleTracks(layer, where, null)]);
+    if (mine !== run) return;
+    panel.setCount(shown, tracks.length);
+    if (lines) filterLines(mine, tracks);
+  }
+
+  function showPlaceVoyages(locationId) {
+    voyage = null;
+    place = locationId;
+    panel.setVoyageMode(true);
+    popup.close();
+    applyPlace(++run);
+  }
+
   async function showVoyage(track) {
+    place = null;
     voyage = track;
     panel.setVoyageMode(true);
     popup.close();
@@ -299,8 +388,8 @@ async function main() {
   }
 
   function leaveVoyage() {
-    if (voyage == null) return false;
-    voyage = null;
+    if (voyage == null && place == null) return false;
+    voyage = place = null;
     panel.setVoyageMode(false);
     return true;
   }
@@ -308,6 +397,7 @@ async function main() {
   async function apply() {
     const mine = ++run;
     if (voyage != null) return applyVoyage(mine);
+    if (place != null) return applyPlace(mine);
     setLineStyle("all");
     const where = buildWhere(state);
     showPoints(keywordActive(state));
@@ -349,21 +439,29 @@ async function main() {
 
   // Click a point (where points are showing) for its popup
   const popup = createPopup(mapEl.view, {
-    itemId: mapConfig.logbookItemId, locations: byId, onShowVoyage: showVoyage,
+    itemId: mapConfig.logbookItemId, locations: byId, onShowVoyage: showVoyage, onShowPlaceVoyages: showPlaceVoyages,
     // Keyword chips and search text that are on: highlighted in the popup
     getHighlights: () => [...[...state.keywords].map((k) => keywordPatterns.get(k)), compileQuery(state.text)]
       .filter(Boolean),
   });
+  // Click a location (drawn above the points, so it wins) or a point
   mapEl.view.on("click", async (event) => {
-    if (layerView.suspended) return popup.close();
-    const { results } = await mapEl.view.hitTest(event, { include: [layer] });
+    const include = [...placeLayers, ...(layerView.suspended ? [] : [layer])];
+    const { results } = await mapEl.view.hitTest(event, { include });
     const hit = results.find((r) => r.type === "graphic");
     if (!hit) return popup.close();
     const a = hit.graphic.attributes;
-    popup.open(hit.graphic.geometry, a.point_id, a.track, a);
+    if (hit.layer === layer) popup.open(hit.graphic.geometry, a.point_id, a.track, a);
+    else popup.openLocation(hit.graphic.geometry, a);
   });
   panel.setCount(total, (await visibleTracks(layer, "1=1", null)).length);
   setUpTooltip(mapEl.view, layer, () => voyage != null || keywordActive(state));
+  // Ring on hover: locations always, log entries wherever they're showing
+  const ring = new GraphicsLayer({ title: "hover", listMode: "hide" });
+  mapEl.map.add(ring);
+  setUpHoverRing(mapEl.view, ring,
+    () => [...placeLayers, ...(layerView.suspended ? [] : [layer])],
+    (hit) => (hit.layer === layer ? pointSizeAt(mapEl.view.scale) : mapConfig.locationSymbolSize));
   document.body.classList.remove("loading");
 }
 

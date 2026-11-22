@@ -63,9 +63,12 @@ export function buildPanel(root, { state, onChange, locations, keywords, years, 
   const back = el("button", { type: "button", class: "panel-back", hidden: true },
     el("calcite-icon", { icon: "chevron-left", scale: "s", "aria-hidden": "true" }), strings.voyageBack);
   back.addEventListener("click", () => onVoyageBack?.());
+  const credit = el("p", { class: "panel-credit" },
+    strings.creditUrl ? el("a", { href: strings.creditUrl, target: "_blank", rel: "noopener" }, strings.credit) : strings.credit);
   const header = el("header", { class: "panel-header" },
-    el("div", { class: "panel-title-row" }, el("h1", { class: "panel-title" }, strings.panelTitle)),
+    el("div", { class: "panel-title-row" }, el("h2", { class: "panel-title" }, strings.panelTitle)),
     el("div", { class: "panel-meta" }, count, clear),
+    credit,
     back);
 
   // Sections with a filter applied get a filter icon and a highlighted header.
