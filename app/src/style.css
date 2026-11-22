@@ -381,6 +381,216 @@ calcite-tooltip {
   font-variant-numeric: tabular-nums;
 }
 
+/* ------------------------------------------------------------ map buttons */
+
+/* Zoom and Home, styled like the panel. Calcite buttons only take flat
+   colours, so they are transparent and the gradient is on the widget. */
+arcgis-zoom,
+arcgis-home {
+  --calcite-button-background-color: transparent;
+  --calcite-button-border-color: transparent;
+  --calcite-button-text-color: var(--gold);
+  --calcite-button-icon-color: var(--gold);
+  --calcite-button-corner-radius: 0;
+  --calcite-color-foreground-1: transparent;
+  --calcite-color-foreground-2: rgb(255 255 255 / 0.08);
+  --calcite-color-foreground-3: rgb(0 0 0 / 0.2);
+  --calcite-color-text-1: var(--gold);
+  --calcite-color-border-1: var(--panel-border);
+  --calcite-color-border-3: var(--panel-border);
+  --calcite-color-focus: var(--gold);
+  background: linear-gradient(180deg, #2d4341 0%, #1d2d2b 100%);
+  border: 1px solid var(--gold-soft);
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.4), inset 0 0 0 1px rgb(0 0 0 / 0.4);
+  overflow: hidden;
+}
+arcgis-zoom:hover,
+arcgis-home:hover { border-color: var(--gold); }
+
+/* ------------------------------------------------------------ voyage back button */
+
+.panel-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  padding: 4px 10px 4px 6px;
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #2d4341 0%, #1d2d2b 100%);
+  color: var(--gold);
+  font: 500 0.875rem var(--font-body);
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.4);
+}
+.panel-back:hover { color: #f3dfa8; border-color: var(--gold); }
+.panel-back[hidden] { display: none; }
+
+/* ------------------------------------------------------------ entry popup */
+
+.popup {
+  position: fixed;
+  z-index: 20;
+  width: min(320px, calc(100vw - 24px));
+  max-height: min(70vh, 560px);
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  border: 1px solid var(--gold-soft);
+  border-radius: 6px;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.45), inset 0 0 0 1px rgb(0 0 0 / 0.4);
+  overflow: hidden;
+  outline: none;
+}
+.popup[hidden] { display: none; }
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 8px 10px 14px;
+  background: var(--header-bg);
+  border-bottom: 2px solid var(--gold-soft);
+}
+.popup-heading { flex: 1; min-width: 0; }
+.popup-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: #f6ecd2;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+  overflow-wrap: anywhere;
+}
+.popup-date {
+  margin-top: 2px;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #e3cfa0;
+}
+.popup-flag {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold-soft);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.5);
+}
+.popup-close {
+  flex: none;
+  align-self: flex-start;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  color: #e3cfa0;
+  cursor: pointer;
+}
+.popup-close:hover { background: rgb(0 0 0 / 0.2); color: #f6ecd2; }
+
+.popup-body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 14px 14px;
+}
+.popup-status { padding: 14px; color: var(--text-muted); }
+
+.popup-section {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--panel-border);
+}
+.popup-section:last-of-type { border-bottom: none; }
+.popup-section-title {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+}
+.popup-line {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.popup-line:last-child { margin-bottom: 0; }
+.popup-company { font-weight: 700; }
+.popup-rank, .popup-label { color: var(--text-muted); }
+
+/* Origin ●- - - -● Destination */
+.popup-route {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-size: 0.95rem;
+}
+.popup-place { flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.popup-place-end { text-align: right; }
+.popup-route-line {
+  position: relative;
+  flex: 1 0 36px;
+  height: 0;
+  border-top: 2px dashed var(--gold-soft);
+}
+.popup-route-line::before,
+.popup-route-line::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.popup-route-line::before { left: -2px; }
+.popup-route-line::after { right: -2px; }
+
+.popup-memos {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.popup-memos li + li { margin-top: 4px; }
+.popup-memos li::marker { color: var(--gold); }
+
+/* Text matching the keyword filter */
+.popup-match {
+  background: none;
+  color: #d9b65f;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.popup-actions { padding-top: 12px; }
+.popup-voyage {
+  padding: 6px 14px;
+  border: 1px solid rgb(0 0 0 / 0.35);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #e7c879 0%, #c29f48 100%);
+  color: #1b1b1b;
+  font: 700 0.95rem var(--font-body);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.35);
+}
+.popup-voyage:hover { background: linear-gradient(180deg, #f0d48a 0%, #cfab52 100%); }
+.popup-voyage:active { box-shadow: inset 0 2px 3px rgb(0 0 0 / 0.35); }
+.popup-voyage:focus-visible, .popup-close:focus-visible, .panel-back:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
 /* ------------------------------------------------------------ small screens */
 
 @media (max-width: 600px) {

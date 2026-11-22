@@ -3,21 +3,8 @@ import { strings } from "./config/strings.js";
 import { nationalities } from "./config/nationalities.js";
 import { companies } from "./config/companies.js";
 import { isActive, keywordActive } from "./filters.js";
+import { el } from "./dom.js";
 
-const el = (tag, attrs = {}, ...children) => {
-  const node = document.createElement(tag);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (v == null || v === false) continue;
-    if (k === "class") node.className = v;
-    else if (k === "style" && typeof v === "object") {
-      for (const [prop, val] of Object.entries(v)) node.style.setProperty(prop, val);
-    }
-    else if (typeof v === "object" || (k in node && typeof v !== "string")) node[k] = v;
-    else node.setAttribute(k, v === true ? "" : v);
-  }
-  node.append(...children.flat().filter((c) => c != null));
-  return node;
-};
 
 // The title goes in the content-start slot instead of Calcite's heading, so
 // the filter icon can sit right after the name. `label` names the toggle.
@@ -68,13 +55,18 @@ function locationCombobox(id, items, countKey, onSelect) {
  * - keywords: [{label, words}]
  * - years: {min, max, histogram: [[year, count], ...]}
  * - onKeywordOpen(): called when the keyword block is first opened (to preload search text)
+ * - onVoyageBack(): called when the back button (shown while one voyage is shown) is pressed
  */
-export function buildPanel(root, { state, onChange, locations, keywords, years, onKeywordOpen }) {
+export function buildPanel(root, { state, onChange, locations, keywords, years, onKeywordOpen, onVoyageBack }) {
   const count = el("span", { class: "panel-count", "aria-live": "polite" });
   const clear = el("button", { type: "button", class: "panel-clear", hidden: true }, strings.clearAll);
+  const back = el("button", { type: "button", class: "panel-back", hidden: true },
+    el("calcite-icon", { icon: "chevron-left", scale: "s", "aria-hidden": "true" }), strings.voyageBack);
+  back.addEventListener("click", () => onVoyageBack?.());
   const header = el("header", { class: "panel-header" },
     el("div", { class: "panel-title-row" }, el("h1", { class: "panel-title" }, strings.panelTitle)),
-    el("div", { class: "panel-meta" }, count, clear));
+    el("div", { class: "panel-meta" }, count, clear),
+    back);
 
   // Sections with a filter applied get a filter icon and a highlighted header.
   let sectionActive = [];
@@ -188,7 +180,12 @@ export function buildPanel(root, { state, onChange, locations, keywords, years, 
   });
 
   return {
-    setCount(entries, voyages) { count.textContent = strings.count(entries.toLocaleString(), voyages.toLocaleString()); },
+    setCount(entries, voyages) { count.textContent = strings.count(entries, voyages); },
     setSearching(on) { search.loading = on; },
+    // While one voyage is shown: back button on, clear-all link off
+    setVoyageMode(on) {
+      back.hidden = !on;
+      clear.hidden = on || !isActive(state);
+    },
   };
 }

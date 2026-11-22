@@ -25,13 +25,31 @@ export const strings = {
   noMatches: "Lorem ipsum",                        // TODO: replace (combobox has no matches)
 
   // Summary under the panel title: log entries and voyages matching the filters
-  count: (entries, voyages) => `${entries} log entries | ${voyages} Voyages`,
+  // (numbers; singular wording when the count is 1)
+  count: (entries, voyages) =>
+    `${entries.toLocaleString()} ${entries === 1 ? "log entry" : "log entries"} | `
+    + `${voyages.toLocaleString()} ${voyages === 1 ? "Voyage" : "Voyages"}`,
   clearAll: "Lorem",                               // TODO: replace
 
   // Point tooltip: ship name over the date, formatted with these Intl options
   tooltipLabel: "Lorem ipsum",                     // TODO: replace (accessible name for the tooltip)
   dateLocale: "en-GB",
   dateFormat: { day: "numeric", month: "long", year: "numeric" },
+
+  // Popup for a clicked log entry
+  popup: {
+    close: "Close",                                // accessible name of the close button
+    loading: "Loading log entry…",                 // while the entry loads
+    error: "This log entry couldn't be loaded.",   // entry couldn't be loaded
+    origin: "Origin",
+    destination: "Destination",
+    weatherHeading: "Weather Observations",
+    wind: "Wind:",                                 // label before wind direction and force
+    sea: "Sea:",                                   // label before state of the sea
+    showVoyage: "Show Voyage",
+  },
+  // Shown in the panel header while one voyage is shown
+  voyageBack: "Back to map",                       // button back to the filtered map
 
   companyInfo: {                                   // TODO: replace; keyed by company id in companies.js
     default: LOREM,

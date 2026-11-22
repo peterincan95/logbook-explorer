@@ -1,8 +1,13 @@
 // Map settings. Zoom levels are the standard ArcGIS / Web Mercator levels (2 is
 // the whole world, each level up doubles the scale), whatever the basemap uses.
 export const mapConfig = {
-  // Custom basemap (ArcGIS Online item; must be shared publicly for the public site).
-  basemapItemId: "57695426b15d4077b910e39c9483b8f3",
+  // Web map on ArcGIS Online used under the logbook data: its basemap and its
+  // layers (place names, coastal hatching). Must be shared publicly, with its layers.
+  webMapItemId: "e29833df04384db284b347c57e14e28e",
+  // Full logbook records for the popup: public hosted feature layer whose
+  // OBJECTID is the point_id in points.csv (published from logbook_points in
+  // gis/cliwoc_explorer.gdb).
+  logbookItemId: "85cf6855b44e4a49bb1e20fe83953315",
   center: [20, 15],
   zoom: 3,               // starting zoom level
 
@@ -22,6 +27,9 @@ export const mapConfig = {
   showLines: true,
   lineWidth: 0.6,        // px
   lineOpacity: 0.2,      // opacity of each line (0-1); overlapping lines add up
+  // The voyage line while one voyage is shown (popup's Show Voyage button)
+  voyageLineWidth: 2,
+  voyageLineOpacity: 0.9,
 
   otherPointColor: "#6b6b6b",   // nationalities not listed in nationalities.js
   locationMarkerColor: "#5e1a24",

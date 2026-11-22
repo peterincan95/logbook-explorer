@@ -18,9 +18,7 @@ import "@arcgis/map-components/components/arcgis-map";
 import "@arcgis/map-components/components/arcgis-zoom";
 import "@arcgis/map-components/components/arcgis-home";
 
-import Basemap from "@arcgis/core/Basemap.js";
-import PortalItem from "@arcgis/core/portal/PortalItem.js";
-import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer.js";
+import Viewpoint from "@arcgis/core/Viewpoint.js";
 import CSVLayer from "@arcgis/core/layers/CSVLayer.js";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer.js";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
@@ -36,6 +34,7 @@ import keywordsCsv from "./config/keywords.csv?raw";
 import { createState, buildWhere, keywordActive } from "./filters.js";
 import { loadSearchIndex, compileWords, compileQuery, matchIds } from "./search.js";
 import { buildPanel } from "./panel.js";
+import { createPopup } from "./popup.js";
 
 const dataUrl = (path) => `${import.meta.env.BASE_URL}${path}`;
 // Map scale at a standard ArcGIS / Web Mercator zoom level. All zoom levels in
@@ -73,7 +72,7 @@ function pointsLayer() {
     title: strings.pageTitle,
     latitudeField: "lat",
     longitudeField: "lon",
-    outFields: ["nat", "company", "origin", "dest", "year", "ship", "date", "track"],
+    outFields: ["point_id", "nat", "company", "origin", "dest", "year", "ship", "date", "track"],
     popupEnabled: false,
     renderer: {
       type: "unique-value",
@@ -94,21 +93,23 @@ function pointsLayer() {
 
 // Voyage lines (lines.geojson): feature n is track n, and points carry the
 // track number, so the lines to show are the tracks of the points showing.
+function lineRenderer(width, opacity) {
+  const line = (color) => ({ type: "simple-line", width, color: withAlpha(color, opacity) });
+  return {
+    type: "unique-value",
+    field: "nat",
+    defaultSymbol: line(mapConfig.otherPointColor),
+    uniqueValueInfos: nationalities.map((n) => ({ value: n.value, label: n.label, symbol: line(n.color) })),
+  };
+}
+
 function linesLayer() {
-  // Opacity is set on each line's colour, not the layer, so where lines
-  // overlap they build up and look more solid.
-  const line = (color) => ({ type: "simple-line", width: mapConfig.lineWidth, color: withAlpha(color, mapConfig.lineOpacity) });
   return new GeoJSONLayer({
     url: dataUrl(dataFiles.lines),
     title: "voyages",
     outFields: ["nat"],
     popupEnabled: false,
-    renderer: {
-      type: "unique-value",
-      field: "nat",
-      defaultSymbol: line(mapConfig.otherPointColor),
-      uniqueValueInfos: nationalities.map((n) => ({ value: n.value, label: n.label, symbol: line(n.color) })),
-    },
+    renderer: lineRenderer(mapConfig.lineWidth, mapConfig.lineOpacity),
   });
 }
 
@@ -121,17 +122,6 @@ async function visibleTracks(layer, where, objectIds) {
     outStatistics: [{ statisticType: "count", onStatisticField: "track", outStatisticFieldName: "n" }],
   });
   return features.map((f) => Number(f.attributes.track));
-}
-
-// The basemap item can be a vector tile style (e.g. one made in the Vector
-// Tile Style Editor) or a web map used as a basemap.
-async function loadBasemap(id) {
-  const item = new PortalItem({ id });
-  await item.load();
-  if (item.type === "Vector Tile Service") {
-    return new Basemap({ baseLayers: [new VectorTileLayer({ portalItem: item })], title: item.title });
-  }
-  return new Basemap({ portalItem: item });
 }
 
 async function yearHistogram(layer) {
@@ -147,8 +137,10 @@ async function yearHistogram(layer) {
 // Hover tooltip: ship name over the date. A calcite-tooltip is anchored to an
 // invisible element moved to the cursor; each pointer move hit-tests the
 // points layer, and results from older moves are ignored. Only active from
-// mapConfig.tooltipMinZoom in, and not for touch (no hover).
-function setUpTooltip(view, layer) {
+// mapConfig.tooltipMinZoom in, or at any zoom while anyZoom() is true (a
+// keyword filter or a single voyage is shown), and not for touch (no hover).
+function setUpTooltip(view, layer, anyZoom = () => false) {
+  const active = () => anyZoom() || zoomedTo(view, mapConfig.tooltipMinZoom);
   const anchor = document.getElementById("tooltip-anchor");
   const tooltip = document.getElementById("point-tooltip");
   const shipEl = document.getElementById("tooltip-ship");
@@ -169,7 +161,7 @@ function setUpTooltip(view, layer) {
   };
   view.on("pointer-move", async (event) => {
     const move = ++latestMove;
-    if (!zoomedTo(view, mapConfig.tooltipMinZoom) || event.pointerType === "touch") return hide();
+    if (!active() || event.pointerType === "touch") return hide();
     const { results } = await view.hitTest(event, { include: [layer] });
     if (move !== latestMove) return;
     const hit = results.find((r) => r.type === "graphic");
@@ -188,21 +180,33 @@ function setUpTooltip(view, layer) {
     latestMove++;
     hide();
   });
-  reactiveUtils.watch(() => view.scale, () => { if (!zoomedTo(view, mapConfig.tooltipMinZoom)) hide(); });
+  reactiveUtils.watch(() => view.scale, () => { if (!active()) hide(); });
 }
 
 async function main() {
   document.title = strings.pageTitle;
   const mapEl = document.querySelector("arcgis-map");
-  mapEl.basemap = await loadBasemap(mapConfig.basemapItemId);
-  mapEl.center = mapConfig.center;
-  mapEl.scale = scaleAtZoom(mapConfig.zoom);
+  // The whole web map (basemap plus its own layers, e.g. place names and
+  // coastal hatching); the logbook layers are added on top of it. Its saved
+  // view is replaced by the start view in map.js, which Home also returns to.
+  mapEl.itemId = mapConfig.webMapItemId;
   await mapEl.viewOnReady();
+  mapEl.view.popupEnabled = false;          // the app's own popup handles clicks
+  const start = new Viewpoint({
+    targetGeometry: { type: "point", longitude: mapConfig.center[0], latitude: mapConfig.center[1] },
+    scale: scaleAtZoom(mapConfig.zoom),
+  });
+  await mapEl.view.goTo(start, { animate: false });
+  document.querySelector("arcgis-home").viewpoint = start;
 
   const layer = pointsLayer();
   const lines = mapConfig.showLines ? linesLayer() : null;
   const markers = new GraphicsLayer({ title: "locations" });
   mapEl.map.addMany([lines, layer, markers].filter(Boolean));
+  // The web map's place-name layers go above the logbook data so labels stay readable
+  for (const l of mapEl.map.layers.filter((l) => /^locations \(/i.test(l.title)).toArray()) {
+    mapEl.map.reorder(l, mapEl.map.layers.length - 1);
+  }
   // Lines load on their own so the points aren't held up
   const lineViewReady = lines ? mapEl.whenLayerView(lines).catch((err) => console.error(err)) : null;
 
@@ -226,6 +230,7 @@ async function main() {
 
   const state = createState();
   let run = 0;
+  let voyage = null;   // track number while "Show Voyage" is on, else null
 
   async function keywordIds() {
     const patterns = [...state.keywords].map((k) => keywordPatterns.get(k));
@@ -255,8 +260,55 @@ async function main() {
     }
   }
 
+  // One voyage on its own (from the popup's Show Voyage button). The panel
+  // filters stay set and come back with the panel's back button.
+  // Line style: stronger while one voyage is shown on its own
+  const lineStyles = {
+    all: lineRenderer(mapConfig.lineWidth, mapConfig.lineOpacity),
+    voyage: lineRenderer(mapConfig.voyageLineWidth, mapConfig.voyageLineOpacity),
+  };
+  let lineStyle = "all";
+  const setLineStyle = (style) => {
+    if (lines && style !== lineStyle) lines.renderer = lineStyles[style];
+    lineStyle = style;
+  };
+
+  async function applyVoyage(mine) {
+    const where = `track = ${voyage}`;
+    setLineStyle("voyage");
+    showPoints(true);
+    layerView.filter = new FeatureFilter({ where });
+    markers.removeAll();
+    const shown = await layer.queryFeatureCount({ where });
+    if (mine !== run) return;
+    panel.setCount(shown, 1);
+    if (lines) filterLines(mine, [voyage]);
+  }
+
+  async function showVoyage(track) {
+    voyage = track;
+    panel.setVoyageMode(true);
+    popup.close();
+    const mine = ++run;
+    const [extent] = await Promise.all([layer.queryExtent({ where: `track = ${track}` }), applyVoyage(mine)]);
+    if (mine === run && extent.extent) {
+      const ext = extent.extent;
+      await mapEl.view.goTo(ext.width || ext.height ? ext.expand(1.3) : { target: ext.center, zoom: 8 })
+        .catch(() => {});
+    }
+  }
+
+  function leaveVoyage() {
+    if (voyage == null) return false;
+    voyage = null;
+    panel.setVoyageMode(false);
+    return true;
+  }
+
   async function apply() {
     const mine = ++run;
+    if (voyage != null) return applyVoyage(mine);
+    setLineStyle("all");
     const where = buildWhere(state);
     showPoints(keywordActive(state));
     let objectIds = null;
@@ -289,11 +341,29 @@ async function main() {
   }
 
   const panel = buildPanel(document.querySelector("#panel"), {
-    state, onChange: apply, locations, keywords, years,
+    state, locations, keywords, years,
+    onChange: () => { leaveVoyage(); apply(); },      // changing a filter ends the single-voyage view
+    onVoyageBack: () => { leaveVoyage(); apply(); },
     onKeywordOpen: () => loadSearchIndex(dataUrl(dataFiles.search)).catch(() => {}),
   });
+
+  // Click a point (where points are showing) for its popup
+  const popup = createPopup(mapEl.view, {
+    itemId: mapConfig.logbookItemId, locations: byId, onShowVoyage: showVoyage,
+    // Keyword chips and search text that are on: highlighted in the popup
+    getHighlights: () => [...[...state.keywords].map((k) => keywordPatterns.get(k)), compileQuery(state.text)]
+      .filter(Boolean),
+  });
+  mapEl.view.on("click", async (event) => {
+    if (layerView.suspended) return popup.close();
+    const { results } = await mapEl.view.hitTest(event, { include: [layer] });
+    const hit = results.find((r) => r.type === "graphic");
+    if (!hit) return popup.close();
+    const a = hit.graphic.attributes;
+    popup.open(hit.graphic.geometry, a.point_id, a.track, a);
+  });
   panel.setCount(total, (await visibleTracks(layer, "1=1", null)).length);
-  setUpTooltip(mapEl.view, layer);
+  setUpTooltip(mapEl.view, layer, () => voyage != null || keywordActive(state));
   document.body.classList.remove("loading");
 }
 

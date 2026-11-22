@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Simplified Hamburg flag: white three-towered castle on red -->
+  <rect width="512" height="512" fill="#e30613"/>
+  <g fill="#fff">
+    <path d="M136 400V250h-24v-34l22-14v-46h-14l36-60 36 60h-14v46l22 14v34h-24v38h152v-38h-24v-34l22-14v-46h-14l36-60 36 60h-14v46l22 14v34h-24v150z"/>
+    <path d="M226 288v-74h-18v-30l48-62 48 62v30h-18v74z"/>
+  </g>
+  <path fill="#e30613" d="M232 400v-58a24 24 0 0 1 48 0v58z"/>
+</svg>
