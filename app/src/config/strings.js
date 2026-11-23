@@ -1,7 +1,6 @@
 // All interface text lives here. Placeholder (Lorem ipsum) text is marked
 // TODO: replace. Data labels (nationalities, companies, keywords) are in the
 // other files in this folder.
-const LOREM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
 
 export const strings = {
   pageTitle: "Logbook Explorer",
@@ -9,7 +8,7 @@ export const strings = {
   appTitle: "Logbook Explorer",
   appSubtitle: "1745–1855",
   panelTitle: "Explore",
-  loading: "Lorem ipsum…",                         // TODO: replace
+  loading: "Loading...",                         // TODO: replace
 
   sections: {
     nationality: "Nationality",
@@ -24,8 +23,8 @@ export const strings = {
     destination: "Destination:",
   },
   searchPlaceholder: "Search",
-  keywordSearchingText: "Lorem ipsum…",           // TODO: replace (shown while search text loads)
-  noMatches: "Lorem ipsum",                        // TODO: replace (combobox has no matches)
+  keywordSearchingText: "Loading...",           // TODO: replace (shown while search text loads)
+  noMatches: "No matches found",                        // TODO: replace (combobox has no matches)
 
   // Summary under the panel title: log entries and voyages matching the filters
   // (numbers; singular wording when the count is 1)
@@ -35,10 +34,10 @@ export const strings = {
   // Data credit under the summary counts (creditUrl: optional link)
   credit: "Data: CLIWOC 2.1, Climatological Database for the World's Oceans (KNMI)",
   creditUrl: null,
-  clearAll: "Lorem",                               // TODO: replace
+  clearAll: "Clear filters",                               // TODO: replace
 
   // Point tooltip: ship name over the date, formatted with these Intl options
-  tooltipLabel: "Lorem ipsum",                     // TODO: replace (accessible name for the tooltip)
+  tooltipLabel: "Tooltip",                     // TODO: replace (accessible name for the tooltip)
   dateLocale: "en-GB",
   dateFormat: { day: "numeric", month: "long", year: "numeric" },
 
@@ -58,7 +57,26 @@ export const strings = {
   // Shown in the panel header while one voyage is shown
   voyageBack: "Back to map",                       // button back to the filtered map
 
-  companyInfo: {                                   // TODO: replace; keyed by company id in companies.js
-    default: LOREM,
+  // Info panel: open on launch, and again from the info button by the map buttons
+  info: {
+    button: "About this map",                      // accessible name of the info button
+    heading: "About the logbooks",
+    description: "The Climatological Database for the World's Oceans (CLIWOC) gathers more than "
+      + "280,000 entries transcribed from the logbooks of "
+      + "European sailing ships during the 18th and 19th centuries, recording each ship's position alongside the wind, weather and sea, and "
+      + "notes on life on board.",
+    howToHeading: "How to use the map",
+    steps: [
+      "Each line is a ship's voyage, coloured by the ship's nationality. Zoom in to see the daily log entries along it.",
+      "Hover over a log entry for the ship and date, and click it to read the full entry.",
+      "Filter the map with the Explore panel: nationality, voyage origin and destination, company, keywords and dates.",
+      "Click Show Voyage in an entry to follow that ship's whole voyage.",
+      "Click a port or place to see every voyage that sailed from or to it.",
+      "Use Back to map to return to your filters.",
+    ],
+    close: "Start exploring",
   },
+
+  // Company info button: opens the company's Wikipedia page in a new tab
+  companyLink: (company) => `${company} on Wikipedia (opens in a new tab)`,
 };

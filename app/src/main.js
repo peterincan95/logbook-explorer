@@ -7,11 +7,12 @@ import "@arcgis/core/assets/esri/themes/light/main.css";
 import "./style.css";
 
 import "@esri/calcite-components/components/calcite-block";
+import "@esri/calcite-components/components/calcite-button";
+import "@esri/calcite-components/components/calcite-dialog";
 import "@esri/calcite-components/components/calcite-combobox";
 import "@esri/calcite-components/components/calcite-combobox-item";
 import "@esri/calcite-components/components/calcite-icon";
 import "@esri/calcite-components/components/calcite-input";
-import "@esri/calcite-components/components/calcite-popover";
 import "@esri/calcite-components/components/calcite-slider";
 import "@esri/calcite-components/components/calcite-tooltip";
 import "@arcgis/map-components/components/arcgis-map";
@@ -34,6 +35,7 @@ import keywordsCsv from "./config/keywords.csv?raw";
 import { createState, buildWhere, keywordActive } from "./filters.js";
 import { loadSearchIndex, compileWords, compileQuery, matchIds } from "./search.js";
 import { buildPanel } from "./panel.js";
+import { el } from "./dom.js";
 import { createPopup } from "./popup.js";
 
 const dataUrl = (path) => `${import.meta.env.BASE_URL}${path}`;
@@ -232,10 +234,32 @@ function setUpTooltip(view, layer, anyZoom = () => false) {
   reactiveUtils.watch(() => view.scale, () => { if (!active()) hide(); });
 }
 
+// Info panel (strings.info): a short description of the data and how to use
+// the map. Opens once the map is ready; the info button reopens it.
+function setUpInfo() {
+  const dialog = document.getElementById("info");
+  const t = strings.info;
+  dialog.label = t.heading;
+  const close = el("calcite-button", { slot: "footer-end", class: "info-close" }, t.close);
+  close.addEventListener("click", () => { dialog.open = false; });
+  dialog.replaceChildren(
+    el("h2", { slot: "header-content", class: "info-heading" }, t.heading),
+    el("p", { class: "info-description" }, t.description),
+    el("h3", { class: "info-subheading" }, t.howToHeading),
+    el("ul", { class: "info-steps" }, t.steps.map((step) => el("li", {}, step))),
+    close);
+  const button = document.getElementById("info-button");
+  button.setAttribute("aria-label", t.button);
+  button.title = t.button;
+  button.addEventListener("click", () => { dialog.open = true; });
+  return () => { dialog.open = true; };
+}
+
 async function main() {
   document.title = strings.pageTitle;
   document.getElementById("app-title").textContent = strings.appTitle;
   document.getElementById("app-subtitle").textContent = strings.appSubtitle;
+  const showInfo = setUpInfo();
   const mapEl = document.querySelector("arcgis-map");
   // The whole web map (basemap plus its own layers, e.g. place names and
   // coastal hatching); the logbook layers are added on top of it. Its saved
@@ -463,6 +487,7 @@ async function main() {
     () => [...placeLayers, ...(layerView.suspended ? [] : [layer])],
     (hit) => (hit.layer === layer ? pointSizeAt(mapEl.view.scale) : mapConfig.locationSymbolSize));
   document.body.classList.remove("loading");
+  showInfo();
 }
 
 main().catch((err) => {

@@ -9,6 +9,9 @@
     <arcgis-map>
       <arcgis-zoom slot="top-right"></arcgis-zoom>
       <arcgis-home slot="top-right"></arcgis-home>
+      <button id="info-button" slot="top-right" type="button" class="map-button">
+        <calcite-icon icon="information" scale="m" aria-hidden="true"></calcite-icon>
+      </button>
     </arcgis-map>
     <div class="sidebar">
       <header class="app-title">
@@ -17,6 +20,8 @@
       </header>
       <aside id="panel" class="panel"></aside>
     </div>
+    <!-- Info panel: filled from strings.info in main.js; open on launch -->
+    <calcite-dialog id="info" class="info-dialog" modal></calcite-dialog>
     <!-- Hover tooltip for points: anchored to an invisible element that follows the cursor -->
     <div id="tooltip-anchor"></div>
     <calcite-tooltip id="point-tooltip" reference-element="tooltip-anchor" placement="right"

@@ -97,18 +97,18 @@ export function buildPanel(root, { state, onChange, locations, keywords, years, 
     el("label", { class: "field-label", for: "origin-search" }, strings.voyage.origin), origin,
     el("label", { class: "field-label", for: "destination-search" }, strings.voyage.destination), dest);
 
-  // Company: chip with an info button that opens a popover
+  // Company: chip with an info button that opens the company's Wikipedia page in a new tab
   const companyChips = companies.map((c) => {
-    const infoId = `info-${c.id}`;
-    const info = el("button", { type: "button", class: "chip-info", id: infoId, "aria-label": c.label },
-      el("calcite-icon", { icon: "information-f", scale: "s", "aria-hidden": "true" }));
+    const info = c.wiki
+      ? el("a", { class: "chip-info", href: c.wiki, target: "_blank", rel: "noopener noreferrer",
+                  "aria-label": strings.companyLink(c.label), title: strings.companyLink(c.label) },
+          el("calcite-icon", { icon: "information-f", scale: "s", "aria-hidden": "true" }))
+      : null;
     const toggleChip = chip(c.label, {
       className: "chip-company",
       onToggle: (on) => { on ? state.companies.add(c.id) : state.companies.delete(c.id); changed(); },
     });
-    const pop = el("calcite-popover", { "reference-element": infoId, label: c.label, "auto-close": true, closable: true, placement: "top" },
-      el("p", { class: "popover-text" }, strings.companyInfo[c.id] ?? strings.companyInfo.default));
-    return el("span", { class: "company-chip" }, info, toggleChip, pop);
+    return el("span", { class: "company-chip" }, info, toggleChip);
   });
   const companyBlock = block(strings.sections.company, el("div", { class: "chip-row" }, companyChips));
 

@@ -327,17 +327,12 @@ body.loading .panel { visibility: hidden; }
   border-radius: 999px 0 0 999px;
   background: transparent;
   color: #172321;
+  text-decoration: none;
   cursor: pointer;
 }
 .chip-info:hover { color: #000; }
 .chip-info:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .company-chip:has(.chip[aria-pressed="true"]) .chip-info { color: #fff; }
-.popover-text {
-  margin: 0;
-  padding: 10px 12px;
-  max-width: 260px;
-  font-family: var(--font-body);
-}
 
 /* Nationality chips take their colour from nationalities.js */
 .chip-nat { --chip-base: var(--nat-color); }
@@ -437,7 +432,8 @@ calcite-tooltip {
 /* Zoom and Home, styled like the panel. Calcite buttons only take flat
    colours, so they are transparent and the gradient is on the widget. */
 arcgis-zoom,
-arcgis-home {
+arcgis-home,
+.map-button {
   --calcite-button-background-color: transparent;
   --calcite-button-border-color: transparent;
   --calcite-button-text-color: var(--gold);
@@ -457,7 +453,77 @@ arcgis-home {
   overflow: hidden;
 }
 arcgis-zoom:hover,
-arcgis-home:hover { border-color: var(--gold); }
+arcgis-home:hover,
+.map-button:hover { border-color: var(--gold); }
+
+/* Info button, matching Home (32px Calcite action) */
+.map-button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  color: var(--gold);
+  cursor: pointer;
+}
+.map-button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* ------------------------------------------------------------ info panel */
+
+.info-dialog {
+  --calcite-dialog-size-x: min(460px, calc(100vw - 32px));
+  --calcite-dialog-size-y: auto;
+  --calcite-dialog-background-color: var(--panel-bg);
+  --calcite-dialog-header-background-color: #5a1a25;
+  --calcite-dialog-footer-background-color: var(--panel-bg);
+  --calcite-dialog-heading-text-color: #f6ecd2;
+  --calcite-dialog-border-color: var(--gold-soft);
+  --calcite-dialog-corner-radius: 6px;
+  --calcite-dialog-header-action-text-color: var(--gold);
+  --calcite-dialog-header-action-background-color-hover: rgb(255 255 255 / 0.08);
+  --calcite-dialog-scrim-background-color: rgb(16 24 23 / 0.45);
+  --calcite-dialog-content-space: 4px 20px 8px;
+  --calcite-font-family: var(--font-body);
+  --calcite-color-focus: var(--gold);
+  font-family: var(--font-body);
+  color: var(--text);
+}
+.info-heading {
+  margin: 0;
+  padding: 12px 16px 10px 20px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+  color: #f6ecd2;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+}
+.info-subheading { font-family: var(--font-display); }
+.info-description {
+  margin: 8px 0 14px;
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+.info-subheading {
+  margin: 0 0 6px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--gold);
+}
+.info-steps {
+  margin: 0;
+  padding-left: 1.2em;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.info-steps li { margin-bottom: 5px; }
+.info-steps li::marker { color: var(--gold); }
+.info-close {
+  --calcite-button-background-color: #d9b65f;
+  --calcite-button-border-color: rgb(0 0 0 / 0.35);
+  --calcite-button-text-color: #1b1b1b;
+  --calcite-button-corner-radius: 999px;
+}
 
 /* ------------------------------------------------------------ voyage back button */
 
